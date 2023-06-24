@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Press Start 2P', cursive;
+  }
+}
+
+
+h1,
+p,
+input {
+  color: #00ff00;
+}
+
+.pxl {
+  width: 850px;
+  height: 90px;
+  image-rendering: pixelated;
+}
+
+#canvas {
+  display: block;
+  border: 2px solid #00ff00;
+  width: 896px;
+  height: 84px;
+}
+
+button.active {
+  /* Example styles for the active state of the button */
+  background-color: #ddd;
+  color: #f00;
+}
