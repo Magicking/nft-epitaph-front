@@ -12,7 +12,7 @@
   import { ethers } from "ethers";
   import rgeArtifact from "$lib/rge.abi.json";
   evm.attachContract("rge", rgeArtifact["address"], rgeArtifact["abi"]);
-
+  
   onMount(async () => {
     const maxX = 128;
     const maxY = 12;
@@ -62,6 +62,37 @@
       drawing = false;
     });
 
+    canvas.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      for (let i = 0; i < e.changedTouches.length; i++) {
+        if (isEraserActive) {
+          erasePixelEvent(e.changedTouches[i]);
+        } else {
+          drawPixelEvent(e.changedTouches[i]);
+        }
+      }
+    });
+    canvas.addEventListener("touchend", (e) => {
+      e.preventDefault();
+      for (let i = 0; i < e.changedTouches.length; i++) {
+        if (isEraserActive) {
+          erasePixelEvent(e.changedTouches[i]);
+        } else {
+          drawPixelEvent(e.changedTouches[i]);
+        }
+      }
+    });
+    canvas.addEventListener("touchmove", (e) => {
+      e.preventDefault();
+      for (let i = 0; i < e.changedTouches.length; i++) {
+        if (isEraserActive) {
+          erasePixelEvent(e.changedTouches[i]);
+        } else {
+          drawPixelEvent(e.changedTouches[i]);
+        }
+      }
+    });
+    
     function getRandomColor() {
       const letters = "0123456789ABCDEF";
       let color = "#";

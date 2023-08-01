@@ -1,5 +1,5 @@
 {
-    "address":"0x245e77E56b1514D77910c9303e4b44dDb44B788c",
+    "address":"0xfB12F7170FF298CDed84C793dAb9aBBEcc01E798",
     "abi": [
       {
         "inputs": [],
@@ -151,6 +151,19 @@
         "type": "function"
       },
       {
+        "inputs": [],
+        "name": "distanceMax",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
         "inputs": [
           {
             "internalType": "uint256",
@@ -218,26 +231,6 @@
         "type": "function"
       },
       {
-        "inputs": [],
-        "name": "mint",
-        "outputs": [],
-        "stateMutability": "payable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "to",
-            "type": "address"
-          }
-        ],
-        "name": "mint",
-        "outputs": [],
-        "stateMutability": "payable",
-        "type": "function"
-      },
-      {
         "inputs": [
           {
             "internalType": "address",
@@ -302,9 +295,9 @@
         "name": "nextOfKin",
         "outputs": [
           {
-            "internalType": "address",
+            "internalType": "uint256",
             "name": "",
-            "type": "address"
+            "type": "uint256"
           }
         ],
         "stateMutability": "view",
@@ -507,57 +500,6 @@
           }
         ],
         "name": "transferFrom",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "tokenId",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256[6]",
-            "name": "sig",
-            "type": "uint256[6]"
-          },
-          {
-            "internalType": "uint256",
-            "name": "extraData",
-            "type": "uint256"
-          }
-        ],
-        "name": "updateEpitaph",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "to",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "tokenId",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256[6]",
-            "name": "sig",
-            "type": "uint256[6]"
-          },
-          {
-            "internalType": "uint256",
-            "name": "extraData",
-            "type": "uint256"
-          }
-        ],
-        "name": "updateEpitaph",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
