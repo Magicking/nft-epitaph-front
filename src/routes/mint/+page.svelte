@@ -15,7 +15,7 @@
   
   onMount(async () => {
     const maxX = 128;
-    const maxY = 12;
+    const maxY = 24;
     const canvas = document.getElementById("canvas");
     const rect = canvas.getBoundingClientRect();
     const pixX = rect.width / maxX;
@@ -153,7 +153,7 @@
         console.log("Calling mintEpitaph", sig, rgb256);
         // call the smart contract with 0.1 ETH
         //console.log($contracts.rge);
-        await $contracts.rge["mintEpitaph(uint256[6],uint256)"](sig, rgb256, {
+        await $contracts.rge["mintEpitaph(uint256[12],uint256)"](sig, rgb256, {
           value: ethers.utils.parseEther("0.1"),
         });
       } catch (error) {

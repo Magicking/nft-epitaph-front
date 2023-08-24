@@ -41,7 +41,8 @@ export const GraveyardStore1 = derived([provider, signerAddress, contracts], ([$
                     const tokenURI = await $contracts.rge.tokenURI(i);
                     const stripb64h = tokenURI.replace(/^data:\w+\/\w+;base64,/, '');
                     const uri = JSON.parse(atob(stripb64h)).image;
-                    ret.push(uri);
+                    ret.push({"tokenId": i,
+                              "datauri": uri});
                 }
 				set(ret);
 			}

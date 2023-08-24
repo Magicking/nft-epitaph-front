@@ -19,14 +19,14 @@
       <span>Fetching blockchain data</span>
     {:then totalSupply}
       <p class="py-4 text-white">Total {totalSupply}</p>
-      {#each range($GraveyardStore1.length - 5, $GraveyardStore1.length, 1) as tokenId}
-        {#if tokenId >= 0}
+      {#each range(totalSupply - 5, totalSupply - 0, 1) as tokenId}
+        {#if tokenId >= 0 && tokenId < totalSupply}
           <p>ID: {tokenId}</p>
-          <img
+          <a href="/epitaph/?i={tokenId}"><img
             class="pxl justify-center items-center mx-auto my-4"
             alt="NFT"
-            src={$GraveyardStore1[tokenId]}
-          />
+            src={$GraveyardStore1[tokenId]["datauri"]}
+          /></a>
         {/if}
       {/each}
     {/await}
