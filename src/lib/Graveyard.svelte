@@ -20,7 +20,7 @@
     {:then totalSupply}
       <p class="py-4 text-white">Total {totalSupply}</p>
       {#each range(totalSupply - 5, totalSupply - 0, 1) as tokenId}
-        {#if tokenId >= 0 && tokenId < totalSupply}
+        {#if tokenId >= 0 && tokenId < totalSupply && $GraveyardStore1[tokenId]}
           <p>ID: {tokenId}</p>
           <a href="/epitaph/?i={tokenId}"><img
             class="pxl justify-center items-center mx-auto my-4"

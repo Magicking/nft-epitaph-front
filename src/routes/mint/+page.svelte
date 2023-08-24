@@ -228,9 +228,9 @@
   </p>
   <canvas
     id="canvas"
-    class="block w-[896px] h-[84px] border-2 my-4 justify-center items-center mx-auto"
+    class="block w-[896px] h-[168px] border-2 my-4 justify-center items-center mx-auto"
     width="896px"
-    height="84px"
+    height="168px"
   />
   {#if $connected}
     {#if $chainId !== 1}
