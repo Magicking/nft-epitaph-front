@@ -21,5 +21,6 @@ function* iter_range(begin,end,step) {
 }
 
 export function range(begin, end, step) {
+	if (begin < 0) begin = 0;
 	return Array.from(iter_range(begin,end,step));
 }

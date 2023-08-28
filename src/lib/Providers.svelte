@@ -25,7 +25,7 @@
         Localhost3: () => evm.setProvider("http://127.0.0.1:8545", 3),
         Localhost4: () => evm.setProvider("http://127.0.0.1:8545", 4),
         RemoteBench: () => evm.setProvider("http://51.159.29.99:38545"),
-        RemoteBench3: () => evm.setProvider("http://51.159.29.99:38545", 3),
+        RemoteBench3: () => evm.setProvider("http://10.61.20.2:8545", 3),
         LocalhostNull: () => evm.setProvider("http://127.0.0.1:8545", null),
         Gnosis: () => evm.setProvider("https://rpc.gnosischain.com"),
         Arbitrum: () => evm.setProvider("https://arb1.arbitrum.io/rpc"),
