@@ -10,8 +10,9 @@
   } from "svelte-ethers-store";
   import { ethers } from "ethers";
   import { page } from '$app/stores';
-  import rgeArtifact from "$lib/rge.abi.json";
-  evm.attachContract("rge", rgeArtifact["address"], rgeArtifact["abi"]);
+  import rgeConf from "$lib/rge.conf.json";
+  import rgeAbi from "$lib/rge.abi.json";
+  evm.attachContract("rge", rgeConf["address"], rgeAbi["abi"]);
 
   import { GraveyardStore1 } from "../../lib/stores/graveyard.js";
 
@@ -25,11 +26,12 @@
 
 <div>
   {#if $contracts.rge}
-        <p>ID: {getIndex()}</p>
+        <!-- Display metadata informations -->
+        <pre style="color:aliceblue"> {$GraveyardStore1[getIndex()]["tokenURI"].description}</pre>
        <img
           class="pxl justify-center items-center mx-auto my-4"
-          alt="NFT"
-          src={$GraveyardStore1[getIndex()]["datauri"]}
+          alt="NFT {getIndex()}"
+          src={$GraveyardStore1[getIndex()]["tokenURI"].image}
         />
   {/if}
 </div>
