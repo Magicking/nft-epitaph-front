@@ -23,6 +23,15 @@ function atob(input) {
 
     return str;
 }
+
+// https://stackoverflow.com/questions/30106476/using-javascripts-atob-to-decode-base64-doesnt-properly-decode-utf-8-strings
+function b64DecodeUnicode(str) {
+    // Going backwards: from bytestream, to percent-encoding, to original string.
+    return decodeURIComponent(atob(str).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+}
+
 export const GraveyardStore1 = derived([provider, signerAddress, contracts], ([$provider, $signerAddress, $contracts], set) => {
 	if (!$provider || !$contracts.rge || !$signerAddress) return set([]);
 
@@ -40,9 +49,9 @@ export const GraveyardStore1 = derived([provider, signerAddress, contracts], ([$
                 for (let i = min; i < max; i++) {
                     const tokenURI = await $contracts.rge.tokenURI(i);
                     const stripb64h = tokenURI.replace(/^data:\w+\/\w+;base64,/, '');
-                    const uri = JSON.parse(atob(stripb64h)).image;
+                    const jobject = JSON.parse(b64DecodeUnicode(stripb64h));
                     ret.push({"tokenId": i,
-                              "datauri": uri});
+                              "tokenURI": jobject});
                 }
 				set(ret);
 			}

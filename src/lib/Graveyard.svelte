@@ -8,8 +8,9 @@
     contracts,
   } from "svelte-ethers-store";
 
-  import rgeArtifact from "./rge.abi.json";
-  evm.attachContract("rge", rgeArtifact["address"], rgeArtifact["abi"]);
+  import rgeConf from "./rge.conf.json";
+  import rgeAbi from "./rge.abi.json";
+  evm.attachContract("rge", rgeConf["address"], rgeAbi["abi"]);
   import { GraveyardStore1 } from "./stores/graveyard.js";
 </script>
 
@@ -25,7 +26,7 @@
           <a href="/epitaph/?i={tokenId}"><img
             class="pxl justify-center items-center mx-auto my-4"
             alt="NFT"
-            src={$GraveyardStore1[tokenId]["datauri"]}
+            src={$GraveyardStore1[tokenId]["tokenURI"].image}
           /></a>
         {/if}
       {/each}

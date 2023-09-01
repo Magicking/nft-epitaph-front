@@ -10,8 +10,9 @@
     contracts,
   } from "svelte-ethers-store";
   import { ethers } from "ethers";
-  import rgeArtifact from "$lib/rge.abi.json";
-  evm.attachContract("rge", rgeArtifact["address"], rgeArtifact["abi"]);
+  import rgeConf from "$lib/rge.conf.json";
+  import rgeAbi from "$lib/rge.abi.json";
+  evm.attachContract("rge", rgeConf["address"], rgeAbi["abi"]);
   
   onMount(async () => {
     const maxX = 128;

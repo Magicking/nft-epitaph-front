@@ -2,8 +2,9 @@
 
 ### Update
 
-The `src/lib/rge.abi.json` file has components of the smart-contract that needs
-to be updated when the [nft-epitaph-contracts](https://github.com/Magicking/nft-epitaph-contracts) are updated
+The `src/lib/rge.abi.json` file has the ABI of the smart-contract that needs
+to be updated when the [nft-epitaph-contracts](https://github.com/Magicking/nft-epitaph-contracts) specification changes (e.g: `forge build`).
+The `src/lib/rge.conf.json` file has the configuration (e.g: address) of the smart-contract for attachment to the front-end.
 
 ## Developing
 
