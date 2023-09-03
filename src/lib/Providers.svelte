@@ -13,6 +13,14 @@
     defaultEvmStores as evm,
   } from "svelte-ethers-store";
 
+  import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum'
+  import { Web3Modal } from '@web3modal/html'
+  import { configureChains, createConfig } from '@wagmi/core'
+  import { mainnet } from '@wagmi/core/chains'
+
+  const chains = [mainnet];
+  const projectId = "550b3382ab70a46838a0f1659b4aef43";
+
   let type;
   let pending = false;
 
@@ -53,13 +61,19 @@
 
   const enable = async () => {
     pending = true;
-    let WalletConnectProvider = window.WalletConnectProvider.default;
-    const provider = new WalletConnectProvider({
-      infuraId: import.meta.env.VITE_INFURA_API_KEY,
+    const { publicClient } = configureChains(chains, [w3mProvider({ projectId })]);
+    const wagmiConfig = createConfig({
+      autoConnect: true,
+      connectors: w3mConnectors({ projectId, chains }),
+      publicClient
     });
+    const ethereumClient = new EthereumClient(wagmiConfig, chains);
+    const web3modal = new Web3Modal({ projectId }, ethereumClient);
+
     //  Enable session (triggers QR Code modal)
-    await provider.enable();
-    evm.setProvider(provider);
+    await web3modal.openModal();
+    evm.setProvider(web3modal);
+    console.log(web3modal);
     pending = false;
   };
 
