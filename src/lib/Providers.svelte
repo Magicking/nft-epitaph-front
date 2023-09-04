@@ -18,6 +18,27 @@
   import { configureChains, createConfig } from '@wagmi/core'
   import { mainnet } from '@wagmi/core/chains'
 
+  import { providers } from 'ethers'
+ 
+  export function publicClientToProvider(publicClient) {
+    const { chain, transport } = publicClient
+    console.log(mainnet);
+    console.log(publicClient);
+    const network = {
+      chainId: chain.id,
+      name: chain.name,
+      ensAddress: chain.contracts?.ensRegistry?.address,
+    }
+    if (transport.type === 'fallback')
+    return new providers.FallbackProvider(
+      (transport.transports).map(
+        ({ value }) => new providers.JsonRpcProvider(value?.url, network),
+      ),
+    )
+  return new providers.JsonRpcProvider(transport.url, network)
+}
+
+
   const chains = [mainnet];
   const projectId = "550b3382ab70a46838a0f1659b4aef43";
 
@@ -59,8 +80,6 @@
     }
   };
 
-  const enable = async () => {
-    pending = true;
     const { publicClient } = configureChains(chains, [w3mProvider({ projectId })]);
     const wagmiConfig = createConfig({
       autoConnect: true,
@@ -68,12 +87,24 @@
       publicClient
     });
     const ethereumClient = new EthereumClient(wagmiConfig, chains);
+    ;
     const web3modal = new Web3Modal({ projectId }, ethereumClient);
+    web3modal.subscribeModal(newState => {
+      console.log("newstate");
+      if (newState.open === false) {
+        console.log("connect");
+        enable();
+      }
 
+      ;});
+
+  const enable = async () => {
+    pending = true;
     //  Enable session (triggers QR Code modal)
-    await web3modal.openModal();
-    evm.setProvider(web3modal);
-    console.log(web3modal);
+    const provider = publicClientToProvider(publicClient(mainnet.id));
+    evm.setProvider(provider);
+    console.log("enable");
+    console.log(provider);
     pending = false;
   };
 
@@ -95,7 +126,7 @@
     <button
       class="block mt-4 px-4 py-2 text-base font-medium text-white bg-[#00ff00] rounded-md shadow-md hover:bg-[#008b07] focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
       disabled={pending}
-      on:click={enable}>Connect with Web3modal</button
+      on:click={web3modal.openModal()}>Connect with Web3modal</button
     >
 
     <p class="py-4">Or choose the setProvider method:</p>
