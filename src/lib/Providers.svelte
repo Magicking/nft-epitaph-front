@@ -12,6 +12,95 @@
     evmProviderType,
     defaultEvmStores as evm,
   } from "svelte-ethers-store";
+  import Onboard from '@web3-onboard/core';
+  import injectedModule from '@web3-onboard/injected-wallets';
+  import walletConnectModule from '@web3-onboard/walletconnect';
+
+  import rgeConf from "./rge.conf.json";
+  import rgeAbi from "./rge.abi.json";
+
+  const injected = injectedModule();
+  const wcV2InitOptions = {
+    /**
+     * Project ID associated with [WalletConnect account](https://cloud.walletconnect.com)
+     */
+    projectId: '550b3382ab70a46838a0f1659b4aef43',
+    /**
+     * Chains required to be supported by all wallets connecting to your DApp
+     */
+    requiredChains: [1],
+    /**
+     * Defaults to `appMetadata.explore` that is supplied to the web3-onboard init
+     * Strongly recommended to provide atleast one URL as it is required by some wallets (i.e. MetaMask)
+     * To connect with WalletConnect
+     */
+    dappUrl: 'http://localhost:5173'
+  };
+  const walletConnect = walletConnectModule(wcV2InitOptions);
+
+  let onboard = Onboard({
+    wallets: [injected, walletConnect],
+    chains: [
+      {
+        id: '0x1',
+        token: 'ETH',
+        label: 'Ethereum Mainnet',
+        rpcUrl: 'http://127.0.01:8545/'
+      }
+    ],
+    appMetadata: {
+      name: 'NFT EPITAPH',
+      description: 'Research tokens smarter and faster.',
+      recommendedInjectedWallets: [
+        { name: 'MetaMask', url: 'https://metamask.io' },
+        { name: 'WalletConnect', url: 'https://walletconnect.com/' }
+      ]
+    },
+    accountCenter: {
+      desktop: {
+        enabled: false,
+        position: 'topRight'
+      },
+      mobile: {
+        enabled: false,
+        position: 'topRight'
+      }
+    },
+  });
+  const walletsSubscription = onboard.state.select('wallets');
+  const { unsubscribe } = walletsSubscription.subscribe((wallets) => {
+	const walletProvider = wallets[0]?.provider;
+	if (walletProvider) {
+		const provider = new ethers.providers.Web3Provider(walletProvider, 'any');
+		evm.setProvider(provider);
+    evm.attachContract("rge", rgeConf["address"], rgeAbi["abi"]);
+	}
+	updateAlreadyConnectedWallets();
+});
+
+if (typeof window !== 'undefined') {
+	const alreadyConnectedWallets = JSON.parse(window.sessionStorage.getItem('ConnectedWallets'));
+	if (alreadyConnectedWallets && alreadyConnectedWallets.length > 0) {
+		onboard
+			.connectWallet({
+				autoSelect: { label: alreadyConnectedWallets[0], disableModals: true }
+			})
+			.catch(console.error);
+	}
+}
+
+export const connectOnBoard = async () => {
+	const wallets = await onboard.connectWallet();
+};
+export const disconnectOnBoard = async () => {
+	const connectedWallet = onboard.state.get().wallets[0];
+	await onboard.disconnectWallet({ label: connectedWallet.label });
+	await evm.disconnect();
+};
+function updateAlreadyConnectedWallets() {
+	const connectedWalletsLabels = onboard.state.get().wallets.map(({ label }) => label);
+	window.sessionStorage.setItem('ConnectedWallets', JSON.stringify(connectedWalletsLabels));
+}
 
   let type;
   let pending = false;
@@ -81,7 +170,7 @@
     <button
       class="block mt-4 px-4 py-2 text-base font-medium text-white bg-[#00ff00] rounded-md shadow-md hover:bg-[#008b07] focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
       disabled={pending}
-      on:click={enable}>Connect with Web3modal</button
+      on:click={connectOnBoard}>Connect with On Board</button
     >
 
     <p class="py-4">Or choose the setProvider method:</p>
@@ -123,6 +212,7 @@
     <p>On the network {$chainData.name} (chainId: {$chainId})</p>
 
     <button class="button" on:click={disconnect}> Disconnect </button>
+    <button class="button" on:click={disconnectOnBoard}> Disconnect OnBoard</button>
   {/if}
 </div>
 
