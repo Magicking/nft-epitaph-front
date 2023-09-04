@@ -23,6 +23,7 @@
     const pixY = rect.height / maxY;
     const colorPicker = document.getElementById("colorPicker");
     const colorValue = document.getElementById("colorValue");
+    const price = document.getElementById("price");
     const submitBtn = document.getElementById("submitBtn");
     let drawing = false;
     let drawnPixels = new Array(maxX)
@@ -105,6 +106,16 @@
     }
 
     colorPicker.value = getRandomColor();
+    let colorPrice = 0;
+    const updatePrice = () => {
+      const rgb = hexToRgb(colorPicker.value);
+      $contracts.rge["calcPrice(uint256)"]((rgb.r<<16) + (rgb.g<<8) + rgb.b).then((priceWei) => {
+        colorPrice = priceWei;
+        console.log("Price", priceWei);
+        price.innerText = ethers.utils.formatEther(priceWei).substring(0, 5) + " ETH";
+      });
+    }
+    updatePrice();
     const rgb = hexToRgb(colorPicker.value);
     colorValue.innerText = rgbToHex(rgb.r, rgb.g, rgb.b);
     colorValue.style.color = colorPicker.value;
@@ -114,6 +125,7 @@
       const hex = rgbToHex(rgb.r, rgb.g, rgb.b);
       colorValue.innerText = hex;
       colorValue.style.color = colorPicker.value;
+      updatePrice();
     });
 
     submitBtn.addEventListener("click", async () => {
@@ -155,7 +167,7 @@
         // call the smart contract with 0.1 ETH
         //console.log($contracts.rge);
         await $contracts.rge["mintEpitaph(uint256[12],uint256)"](sig, rgb256, {
-          value: ethers.utils.parseEther("0.1"),
+          value: colorPrice,
         });
       } catch (error) {
         console.error("An error occurred when calling mintEpitaph:", error);
@@ -221,7 +233,11 @@
     Select a color:
     <input type="color" id="colorPicker" class="rounded-md w-10 h-6 bg-black" />
   </p>
-  <br /><br />
+  <br />
+  <p>
+    Price the shinnier the color: 
+    <span class="w-10 h-6" id="price" />
+  </p><br />
   <p>
     Write few signs of your soul on this immortal canvas on Color <span
       id="colorValue"
