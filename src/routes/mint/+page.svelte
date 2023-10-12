@@ -47,7 +47,7 @@
         $contracts.rge["calcPrice(uint256)"]((rgb.r<<16) + (rgb.g<<8) + rgb.b).then((priceWei) => {
           colorPrice = priceWei;
           console.log("Price", priceWei.toString());
-          price.innerText = ethers.utils.formatEther(priceWei).substring(0, 6) + " ETH";
+          price.innerText = ethers.utils.formatEther(priceWei).substring(0, 6).padEnd(6, '0') + " ETH";
           priceText = "Code " + rgbToHex(rgb.r, rgb.g, rgb.b) + " Price " + price.innerText;
           updateCanvasColors();
         });
@@ -237,7 +237,6 @@
             label={priceText}
             isPopup={true}
             isInput={true}
-            isRight={false}
             isAlpha={false}
             isDark={true}
             on:input={(event) => {
