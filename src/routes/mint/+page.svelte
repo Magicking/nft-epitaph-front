@@ -16,6 +16,10 @@
 
   let fUpdatePrice;
   let priceText="2.0 ETH";
+  let destination = "";
+  function validate(e) {
+    console.log("TODO CHECK destination is a valid address");
+  }
   function getRandomColor() {
       // TODO Check color availability
       return {r: Math.floor(Math.random() * 255),
@@ -29,6 +33,7 @@
     evm.attachContract("rge", rgeConf["address"], rgeAbi["abi"]);
 
     onMount(async () => {
+      destination = await $signer.getAddress();
       const maxX = 128;
       const maxY = 24;
       const canvas = document.getElementById("canvas");
@@ -44,7 +49,7 @@
       let isEraserActive = false;
       let colorPrice = 0;
       fUpdatePrice = (rgb) => {
-        $contracts.rge["calcPrice(uint256)"]((rgb.r<<16) + (rgb.g<<8) + rgb.b).then((priceWei) => {
+        $contracts.rge["calcPrice(address,uint256)"](destination, (rgb.r<<16) + (rgb.g<<8) + rgb.b).then((priceWei) => {
           colorPrice = priceWei;
           console.log("Price", priceWei.toString());
           price.innerText = ethers.utils.formatEther(priceWei).substring(0, 6) + " ETH";
@@ -155,7 +160,7 @@
           console.log("Calling mintEpitaph", sig, rgb256);
           // call the smart contract with 0.1 ETH
           //console.log($contracts.rge);
-          await $contracts.rge["mintEpitaph(uint256[12],uint256)"](sig, rgb256, {
+          await $contracts.rge["mintEpitaphOf(uint256[12],uint256,address)"](sig, rgb256, destination, {
             value: colorPrice,
           });
         } catch (error) {
@@ -226,11 +231,17 @@
       </p>
       {:else}
       <pre style="color:aliceblue">
-      Press and hold the mouse button and move the mouse in the direction you wish to draw.
+      Draw your message on the canvas below, it will be stored on the Ethereum blockchain eternarly.
 
-      Press down lightly your finger where you want to start your drawing on the canvas.
-      And move your finger in the direction you wish to draw.</pre>
+      Press down lightly your finger where you want to start drawing on the canvas.
+      And move your finger in the direction you wish to draw.
       
+      Use the erase button to gently erase pixel.</pre><br />
+      <div class="flex items-stretch md:items-center">
+        <label for="address" class="block w-1/6 mb-2 text-sm font-medium text-gray-100 dark:text-white">In memory of </label>
+        <input type="text" bind:value={destination} on:input={e => validate(e)} id="address" class="bg-gray-50 w-3/6  border border-gray-300 text-gray-100 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="0xDE2..." required>
+    </div>
+    <br/>
       <div class="flex justify-center">
         <p>
         <ColorPicker bind:rgb
