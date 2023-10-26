@@ -16,6 +16,11 @@
           "internalType": "address",
           "name": "_uniswapRouter",
           "type": "address"
+        },
+        {
+          "internalType": "contract IPricing",
+          "name": "_pricer",
+          "type": "address"
         }
       ],
       "stateMutability": "nonpayable",
@@ -130,6 +135,11 @@
               "type": "uint32"
             },
             {
+              "internalType": "bool",
+              "name": "isTag",
+              "type": "bool"
+            },
+            {
               "internalType": "address",
               "name": "inMemoryOf",
               "type": "address"
@@ -207,6 +217,11 @@
               "internalType": "uint32",
               "name": "color",
               "type": "uint32"
+            },
+            {
+              "internalType": "bool",
+              "name": "isTag",
+              "type": "bool"
             },
             {
               "internalType": "address",
@@ -300,6 +315,11 @@
     {
       "inputs": [
         {
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
           "internalType": "uint256",
           "name": "color",
           "type": "uint256"
@@ -360,6 +380,19 @@
       "type": "function"
     },
     {
+      "inputs": [],
+      "name": "flagTagPosition",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "inputs": [
         {
           "internalType": "uint256",
@@ -399,6 +432,11 @@
               "internalType": "uint32",
               "name": "color",
               "type": "uint32"
+            },
+            {
+              "internalType": "bool",
+              "name": "isTag",
+              "type": "bool"
             },
             {
               "internalType": "address",
@@ -477,11 +515,34 @@
         },
         {
           "internalType": "uint256",
-          "name": "extraData",
+          "name": "color",
           "type": "uint256"
         }
       ],
       "name": "mintEpitaph",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256[12]",
+          "name": "sig",
+          "type": "uint256[12]"
+        },
+        {
+          "internalType": "uint256",
+          "name": "color",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        }
+      ],
+      "name": "mintEpitaphOf",
       "outputs": [],
       "stateMutability": "payable",
       "type": "function"
@@ -511,6 +572,19 @@
       "outputs": [
         {
           "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "pricer",
+      "outputs": [
+        {
+          "internalType": "contract IPricing",
           "name": "",
           "type": "address"
         }
@@ -709,11 +783,16 @@
         },
         {
           "internalType": "address",
-          "name": "_updater",
+          "name": "_pricer",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_croqueMort",
           "type": "address"
         }
       ],
-      "name": "updateRenderer",
+      "name": "updateACL",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
