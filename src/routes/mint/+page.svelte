@@ -49,7 +49,7 @@
       let isEraserActive = false;
       let colorPrice = 0;
       fUpdatePrice = (rgb) => {
-        $contracts.rge["calcPrice(address,uint256)"](destination, (rgb.r<<16) + (rgb.g<<8) + rgb.b).then((priceWei) => {
+        $contracts.rge["calcPrice(uint256,bytes)"]((rgb.r<<16) + (rgb.g<<8) + rgb.b, []).then((priceWei) => {
           colorPrice = priceWei;
           console.log("Price", priceWei.toString());
           price.innerText = ethers.utils.formatEther(priceWei).substring(0, 6) + " ETH";
@@ -160,7 +160,7 @@
           console.log("Calling mintEpitaph", sig, rgb256);
           // call the smart contract with 0.1 ETH
           //console.log($contracts.rge);
-          await $contracts.rge["mintEpitaphOf(uint256[12],uint256,address)"](sig, rgb256, destination, {
+          await $contracts.rge["mintEpitaphOf(uint256[12],uint256,address,bytes)"](sig, rgb256, destination, []/* TODO COUPON */, {
             value: colorPrice,
           });
         } catch (error) {
