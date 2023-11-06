@@ -114,7 +114,8 @@ function updateAlreadyConnectedWallets() {
         Localhost3: () => evm.setProvider("http://127.0.0.1:8545", 3),
         Localhost4: () => evm.setProvider("http://127.0.0.1:8545", 4),
         RemoteBench: () => evm.setProvider("http://51.159.29.99:38545"),
-        RemoteBench3: () => evm.setProvider("http://10.61.20.2:8545", 3),
+        RemoteBench180: () => evm.setProvider("http://192.168.1.80:8545", 3),
+        RemoteBench6120: () => evm.setProvider("http://10.61.20.7:8545", 3),
         LocalhostNull: () => evm.setProvider("http://127.0.0.1:8545", null),
         Gnosis: () => evm.setProvider("https://rpc.gnosischain.com"),
         Arbitrum: () => evm.setProvider("https://arb1.arbitrum.io/rpc"),
@@ -189,7 +190,8 @@ function updateAlreadyConnectedWallets() {
       <option value="Localhost3">Localhost using account index 3</option>
       <option value="Localhost4">Localhost using account index 4</option>
       <option value="RemoteBench">RemoteBench remote</option>
-      <option value="RemoteBench3">RemoteBench3 remote</option>
+      <option value="RemoteBench180">RemoteBench180 remote</option>
+      <option value="RemoteBench6120">RemoteBench6120 remote</option>
       <option value="LocalhostNull"
         >Localhost but only provider (no signer)</option
       >
