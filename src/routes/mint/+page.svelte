@@ -51,11 +51,15 @@
       fUpdatePrice = (rgb) => {
         $contracts.rge["calcPrice(uint256,bytes)"]((rgb.r<<16) + (rgb.g<<8) + rgb.b, []).then((priceWei) => {
           colorPrice = priceWei;
-          console.log("Price", priceWei.toString());
           price.innerText = ethers.utils.formatEther(priceWei).substring(0, 6) + " ETH";
+		  price.disabled = false;
           priceText = "Code " + rgbToHex(rgb.r, rgb.g, rgb.b) + " Price " + price.innerText;
           updateCanvasColors();
-        });
+        }).catch(error => {
+		  price.disabled = true;
+          priceText = "Code " + rgbToHex(rgb.r, rgb.g, rgb.b) + " already used";
+		  console.error("An error occurred when calling calcPrice:", error);
+		});
       }
       eraseBtn.addEventListener("click", () => {
         drawing = false;
