@@ -109,8 +109,8 @@ function updateAlreadyConnectedWallets() {
     pending = true;
     try {
       const handler = {
-        Browser: () => evm.setProvider(),
         Localhost: () => evm.setProvider("http://127.0.0.1:8545"),
+        Browser: () => evm.setProvider(),
         Localhost3: () => evm.setProvider("http://127.0.0.1:8545", 3),
         Localhost4: () => evm.setProvider("http://127.0.0.1:8545", 4),
         RemoteBench: () => evm.setProvider("http://51.159.29.99:38545"),
