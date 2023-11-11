@@ -33,7 +33,7 @@ function b64DecodeUnicode(str) {
 }
 
 export const GraveyardStore1 = derived([provider, signerAddress, contracts], ([$provider, $signerAddress, $contracts], set) => {
-	if (!$provider || !$contracts.rge || !$signerAddress) return set([]);
+	if (!$provider || !$contracts.rge || !$signerAddress) return set({});
 
 	provider.subscribe(async (provider) => {
 		if (!provider) return;
@@ -50,8 +50,7 @@ export const GraveyardStore1 = derived([provider, signerAddress, contracts], ([$
                     const tokenURI = await $contracts.rge.tokenURI(i);
                     const stripb64h = tokenURI.replace(/^data:\w+\/\w+;base64,/, '');
                     const jobject = JSON.parse(b64DecodeUnicode(stripb64h));
-                    ret.push({"tokenId": i,
-                              "tokenURI": jobject});
+                    ret[i] = jobject;
                 }
 				set(ret);
 			}

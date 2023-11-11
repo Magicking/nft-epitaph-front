@@ -27,11 +27,11 @@
 <div>
   {#if $contracts.rge}
         <!-- Display metadata informations -->
-        <pre style="color:aliceblue"> {$GraveyardStore1[getIndex()]["tokenURI"].description}</pre>
+        <pre style="color:aliceblue"> {$GraveyardStore1[getIndex()].description}</pre>
        <img
           class="pxl justify-center items-center mx-auto my-4"
           alt="NFT {getIndex()}"
-          src={$GraveyardStore1[getIndex()]["tokenURI"].image}
+          src={$GraveyardStore1[getIndex()].image}
         />
   {/if}
 </div>

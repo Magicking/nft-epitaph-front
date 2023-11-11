@@ -26,7 +26,7 @@
           <a href="/epitaph/?i={tokenId}"><img
             class="pxl justify-center items-center mx-auto my-4"
             alt="NFT"
-            src={$GraveyardStore1[tokenId]["tokenURI"].image}
+            src={$GraveyardStore1[tokenId].image}
           /></a>
         {/if}
       {/each}
