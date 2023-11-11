@@ -146,7 +146,7 @@
 
         // Get the color from the color picker
         let r = rgb.r;
-        let g = rgb.b;
+        let g = rgb.g;
         let b = rgb.b;
 
         // Call the smart contract function
