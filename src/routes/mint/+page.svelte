@@ -17,8 +17,33 @@
   let fUpdatePrice;
   let priceText="2.0 ETH";
   let destination = "";
+  let coupon = "";
   function validate(e) {
     console.log("TODO CHECK destination is a valid address");
+  }
+  function validateCoupon(e) {
+    const couponText = document.getElementById("coupon");
+	if (coupon == "") {
+		couponText.classList.remove("border-green-500");
+		couponText.classList.remove("border-red-500");
+		return;
+	}
+	$contracts.pricing["isValidCoupon(bytes)"](coupon).then((isValid) => {
+	  console.log(isValid);
+	  if (isValid) {
+		couponText.classList.remove("border-red-500");
+		couponText.classList.add("border-green-500");
+	  } else {
+		couponText.classList.remove("border-green-500");
+		couponText.classList.add("border-red-500");
+	  }
+	}).catch(error => {
+		couponText.classList.remove("border-green-500");
+		couponText.classList.add("border-red-500");
+	  console.error("An error occurred when calling isValidCoupon:");
+	});
+    console.log("TODO CHECK coupon is a valid coupon");
+	
   }
   function getRandomColor() {
       // TODO Check color availability
@@ -34,6 +59,10 @@
 
     onMount(async () => {
       destination = await $signer.getAddress();
+      $contracts.rge["pricer()"]().then((pricerAddress) => {
+	    console.log(pricerAddress);
+	    evm.attachContract("pricing", pricerAddress, rgeAbi["price"]);
+	  });
       const maxX = 128;
       const maxY = 24;
       const canvas = document.getElementById("canvas");
@@ -49,7 +78,7 @@
       let isEraserActive = false;
       let colorPrice = 0;
       fUpdatePrice = (rgb) => {
-        $contracts.rge["calcPrice(uint256,bytes)"]((rgb.r<<16) + (rgb.g<<8) + rgb.b, []).then((priceWei) => {
+        $contracts.rge["calcPrice(uint256,bytes)"]((rgb.r<<16) + (rgb.g<<8) + rgb.b, coupon == "" ? [] : coupon).then((priceWei) => {
           colorPrice = priceWei;
           price.innerText = ethers.utils.formatEther(priceWei).substring(0, 6) + " ETH";
 		  price.disabled = false;
@@ -57,7 +86,7 @@
           updateCanvasColors();
         }).catch(error => {
 		  price.disabled = true;
-          priceText = "Code " + rgbToHex(rgb.r, rgb.g, rgb.b) + " already used";
+          priceText = "Code " + rgbToHex(rgb.r, rgb.g, rgb.b) + " already used or invalid coupon";
 		  console.error("An error occurred when calling calcPrice:", error);
 		});
       }
@@ -164,7 +193,7 @@
           console.log("Calling mintEpitaph", sig, rgb256);
           // call the smart contract with 0.1 ETH
           //console.log($contracts.rge);
-          await $contracts.rge["mintEpitaphOf(uint256[12],uint256,address,bytes)"](sig, rgb256, destination, []/* TODO COUPON */, {
+          await $contracts.rge["mintEpitaphOf(uint256[12],uint256,address,bytes)"](sig, rgb256, destination, coupon == "" ? [] : coupon, {
             value: colorPrice,
           });
         } catch (error) {
@@ -277,6 +306,8 @@
         >
           Submit
         </button>
+        <label for="coupon" class="block w-1/6 mb-2 text-sm font-medium text-gray-100 dark:text-white">Coupon</label>
+        <input type="text" bind:value={coupon} on:input={e => validateCoupon(e)} id="coupon" class="bg-gray-50 w-1/6  border text-gray-100 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="0xDE2...">
         <button
           id="eraseBtn"
           class="block mt-4 px-4 py-2 text-base font-medium text-white bg-red-500 rounded-md shadow-md hover:bg-red-900 focus:outline-none focus:ring-red-500 focus:ring-offset-2"

@@ -183,11 +183,11 @@ function updateAlreadyConnectedWallets() {
     >
 
     <select bind:value={type}>
+      <option value="Localhost3">Localhost using account index 3</option>
       <option value="Browser">Browser (window.ethereum)</option>
       <option value="Localhost"
         >Localhost (eg ganache or hardhat on http://127.0.0.1:8545)</option
       >
-      <option value="Localhost3">Localhost using account index 3</option>
       <option value="Localhost4">Localhost using account index 4</option>
       <option value="RemoteBench">RemoteBench remote</option>
       <option value="RemoteBench180">RemoteBench180 remote</option>
