@@ -18,6 +18,14 @@
   let priceText="2.0 ETH";
   let destination = "";
   let coupon = "";
+  function getRandomColor() {
+      // TODO Check color availability
+      return {r: Math.floor(Math.random() * 255),
+              g: Math.floor(Math.random() * 255),
+              b: Math.floor(Math.random() * 255)};
+    }
+
+   let rgb = getRandomColor();
   function validate(e) {
     console.log("TODO CHECK destination is a valid address");
   }
@@ -33,6 +41,7 @@
 	  if (isValid) {
 		couponText.classList.remove("border-red-500");
 		couponText.classList.add("border-green-500");
+		fUpdatePrice(rgb);
 	  } else {
 		couponText.classList.remove("border-green-500");
 		couponText.classList.add("border-red-500");
@@ -45,14 +54,6 @@
     console.log("TODO CHECK coupon is a valid coupon");
 	
   }
-  function getRandomColor() {
-      // TODO Check color availability
-      return {r: Math.floor(Math.random() * 255),
-              g: Math.floor(Math.random() * 255),
-              b: Math.floor(Math.random() * 255)};
-    }
-
-   let rgb = getRandomColor();
    if ($connected) 
    {
     evm.attachContract("rge", rgeConf["address"], rgeAbi["abi"]);
