@@ -1,0 +1,5 @@
+version: '3'
+services:
+  rgefront:
+    build: .
+    restart: always
