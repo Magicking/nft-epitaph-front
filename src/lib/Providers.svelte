@@ -45,7 +45,7 @@
         id: '0x1',
         token: 'ETH',
         label: 'Ethereum Mainnet',
-        rpcUrl: 'http://127.0.01:8545/'
+        rpcUrl: 'https://eth.llamarpc.com'
       }
     ],
     appMetadata: {
@@ -113,9 +113,6 @@ function updateAlreadyConnectedWallets() {
         Browser: () => evm.setProvider(),
         Localhost3: () => evm.setProvider("http://127.0.0.1:8545", 3),
         Localhost4: () => evm.setProvider("http://127.0.0.1:8545", 4),
-        RemoteBench: () => evm.setProvider("http://51.159.29.99:38545"),
-        RemoteBench180: () => evm.setProvider("http://192.168.1.80:8545", 3),
-        RemoteBench6120: () => evm.setProvider("http://10.61.20.7:8545", 3),
         LocalhostNull: () => evm.setProvider("http://127.0.0.1:8545", null),
         Gnosis: () => evm.setProvider("https://rpc.gnosischain.com"),
         Arbitrum: () => evm.setProvider("https://arb1.arbitrum.io/rpc"),
@@ -173,7 +170,7 @@ function updateAlreadyConnectedWallets() {
       disabled={pending}
       on:click={connectOnBoard}>Connect with On Board</button
     >
-
+<!--
     <p class="py-4">Or choose the setProvider method:</p>
 
     <button
@@ -189,9 +186,6 @@ function updateAlreadyConnectedWallets() {
         >Localhost (eg ganache or hardhat on http://127.0.0.1:8545)</option
       >
       <option value="Localhost4">Localhost using account index 4</option>
-      <option value="RemoteBench">RemoteBench remote</option>
-      <option value="RemoteBench180">RemoteBench180 remote</option>
-      <option value="RemoteBench6120">RemoteBench6120 remote</option>
       <option value="LocalhostNull"
         >Localhost but only provider (no signer)</option
       >
@@ -205,7 +199,7 @@ function updateAlreadyConnectedWallets() {
       >
       <option value="Clouflare">ethers.providers.CloudflareProvider()</option>
     </select>
-
+--!>
     {#if pending}connecting...{/if}
   {:else}
     <p>
