@@ -34,7 +34,7 @@
      * Strongly recommended to provide atleast one URL as it is required by some wallets (i.e. MetaMask)
      * To connect with WalletConnect
      */
-    dappUrl: 'http://localhost:5173'
+    dappUrl: 'https://rge.6120.eu/'
   };
   const walletConnect = walletConnectModule(wcV2InitOptions);
 
@@ -170,7 +170,6 @@ function updateAlreadyConnectedWallets() {
       disabled={pending}
       on:click={connectOnBoard}>Connect with On Board</button
     >
-<!--
     <p class="py-4">Or choose the setProvider method:</p>
 
     <button
@@ -199,7 +198,6 @@ function updateAlreadyConnectedWallets() {
       >
       <option value="Clouflare">ethers.providers.CloudflareProvider()</option>
     </select>
--->
     {#if pending}connecting...{/if}
   {:else}
     <p>
