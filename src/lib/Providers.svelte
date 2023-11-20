@@ -179,8 +179,8 @@ function updateAlreadyConnectedWallets() {
     >
 
     <select bind:value={type}>
-      <option value="Localhost3">Localhost using account index 3</option>
       <option value="Browser">Browser (window.ethereum)</option>
+      <option value="Localhost3">Localhost using account index 3</option>
       <option value="Localhost"
         >Localhost (eg ganache or hardhat on http://127.0.0.1:8545)</option
       >
@@ -188,14 +188,7 @@ function updateAlreadyConnectedWallets() {
       <option value="LocalhostNull"
         >Localhost but only provider (no signer)</option
       >
-      <option value="Gnosis">https://rpc.gnosischain.com (RPC)</option>
-      <option value="Arbitrum">https://arb1.arbitrum.io/rpc (RPC)</option>
       <option value="Infura">ethers.providers.InfuraProvider('goerli')</option>
-      <option value="Etherscan"
-        >ethers.providers.EtherscanProvider('goerli')</option
-      >
-      <option value="Alchemy">ethers.providers.AlchemyProvider('goerli')</option
-      >
       <option value="Clouflare">ethers.providers.CloudflareProvider()</option>
     </select>
     {#if pending}connecting...{/if}
