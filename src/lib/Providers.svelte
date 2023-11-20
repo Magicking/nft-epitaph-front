@@ -199,7 +199,7 @@ function updateAlreadyConnectedWallets() {
       >
       <option value="Clouflare">ethers.providers.CloudflareProvider()</option>
     </select>
---!>
+-->
     {#if pending}connecting...{/if}
   {:else}
     <p>
