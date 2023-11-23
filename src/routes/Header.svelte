@@ -4,10 +4,11 @@
 </script>
 
 <header>
-  <div class="corner">
+  <div class="corner flex items-center">
     <img src={scythe} alt="GPT4 SVG drawn scythe" />
   </div>
-  <nav class="w-full justify-center items-center">
+  <nav class="w-full justify-center items-center text-white">
+    <img src="/src/lib/ui/images/chibi_knight.png" class="h-20" alt="" />
     <svg viewBox="0 0 2 3" aria-hidden="true">
       <path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
     </svg>
@@ -15,13 +16,20 @@
       <!-- <li class="text-black">
         <img src={scythe} alt="GPT4 SVG drawn scythe" />
       </li> -->
-      <li aria-current={$page.url.pathname === "/" ? "page" : undefined}>
+      <li
+        class="rainbowText"
+        aria-current={$page.url.pathname === "/" ? "page" : undefined}
+      >
         <a href="/">Graveyard</a>
       </li>
-      <li aria-current={$page.url.pathname === "/about" ? "page" : undefined}>
+      <li
+        class="rainbowText"
+        aria-current={$page.url.pathname === "/about" ? "page" : undefined}
+      >
         <a href="/mint">Souldraw</a>
       </li>
       <li
+        class="rainbowText"
         aria-current="{$page.url.pathname.startsWith('/ethers/set')
           ? 'page'
           : undefined}x"
@@ -34,7 +42,7 @@
     </svg>
   </nav>
 
-  <div class="corner">
+  <div class="corner flex items-center">
     <img src={scythe} alt="GPT4 SVG drawn scythe" />
   </div>
 </header>
@@ -43,11 +51,14 @@
   header {
     display: flex;
     justify-content: space-between;
+    background-image: url("/src/lib/ui/images/header_bg.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
   }
 
   .corner {
     width: 3em;
-    height: 3em;
   }
 
   .corner img {
@@ -59,7 +70,8 @@
   nav {
     display: flex;
     justify-content: center;
-    --background: rgba(255, 255, 255, 0.7);
+    height: 6rem;
+    --background: rgba(0, 0, 0, 0.7);
   }
 
   svg {
@@ -94,6 +106,7 @@
     --size: 6px;
     content: "";
     width: 0;
+    font-weight: bold;
     height: 0;
     position: absolute;
     top: 0;
@@ -107,7 +120,7 @@
     height: 100%;
     align-items: center;
     padding: 0 0.5rem;
-    color: var(--color-text);
+    /* color: var(--color-text); */
     font-weight: 700;
     font-size: 0.8rem;
     text-transform: uppercase;
@@ -118,5 +131,32 @@
 
   a:hover {
     color: var(--color-theme-1);
+  }
+
+  /* Rainbow Text */
+  .rainbowText {
+    font-size: 70px;
+    color: white;
+
+    -webkit-background-clip: text;
+  }
+  .rainbowText:hover {
+    background-image: linear-gradient(
+      to right,
+      red,
+      orange,
+      yellow,
+      green,
+      rgb(255, 0, 43),
+      rgb(252, 123, 252)
+    );
+    animation: move 140s linear infinite;
+    -webkit-text-fill-color: transparent;
+  }
+
+  @keyframes move {
+    to {
+      background-position: 4500vh;
+    }
   }
 </style>
