@@ -6,6 +6,9 @@ export default {
       fontFamily: {
         ps2: ["Press Start 2P", "cursive"],
       },
+      colors:{
+        brightGreen : "#00ff00"
+      }
     },
   },
   plugins: [],

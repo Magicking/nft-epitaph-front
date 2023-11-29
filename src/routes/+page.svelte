@@ -6,9 +6,9 @@
     chainData,
     contracts,
   } from "svelte-ethers-store";
-  import Providers from "$lib/Providers.svelte";
   import Graveyard from "$lib/Graveyard.svelte";
   import Hero from "../components/Hero.svelte";
+  import WalletSetup from "../components/WalletSetup.svelte";
 </script>
 
 <svelte:head>
@@ -25,6 +25,6 @@
     {/if}
   {:else}
     <Hero />
-    <Providers />
+    <WalletSetup />
   {/if}
 </div>

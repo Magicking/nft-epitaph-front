@@ -2,7 +2,9 @@
   <div class="flex items-center p-10 h-full w-full justify-between">
     <div class="flex-1 flex items-center justify-center">
       <div class="min-w-[34rem] max-w-[60rem]">
-        <h1 class="text-7xl text-white mb-2">Reapers Gambit</h1>
+        <h1 class="text-7xl text-white mb-2">
+          Reapers Gambit <span class="text-brightGreen epitaph">Epitaph</span>
+        </h1>
         <h2 class="text-lg text-white w-[30rem]">
           Forge your NFT with the Blades of ReaperGambit
         </h2>
@@ -25,3 +27,14 @@
     </div>
   </div>
 </section>
+
+<style>
+  .epitaph:hover {
+    color: white;
+    box-shadow: 0px 0px 20px 5px rgba(85, 255, 0, 0.6); /* More tightly fitting shadow */
+    border-radius: 10px; /* Match container's border radius */
+    transition: box-shadow 0.3s ease;
+    /* Alternatively, for an inner shadow: */
+    /* box-shadow: inset 0 0 10px rgba(85, 255, 0, 0.6); */
+  }
+</style>
