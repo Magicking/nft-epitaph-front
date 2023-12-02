@@ -12,13 +12,13 @@
   import rgeAbi from "./rge.abi.json";
   evm.attachContract("rge", rgeConf["address"], rgeAbi["abi"]);
   import { GraveyardStore1 } from "./stores/graveyard.js";
+  import Loading from "../components/shared/Loading.svelte";
 </script>
 
 <div>
-
   {#if $contracts.rge}
     {#await $contracts.rge.totalSupply()}
-      <span>Fetching blockchain data</span>
+      <Loading />
     {:then totalSupply}
       <p class="py-4 text-white">Total {totalSupply}</p>
       {#each range(totalSupply - 5, totalSupply - 0, 1) as tokenId}

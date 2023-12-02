@@ -10,60 +10,62 @@
     contracts,
   } from "svelte-ethers-store";
   import { ethers } from "ethers";
-  import ColorPicker from 'svelte-awesome-color-picker';
+  import ColorPicker from "svelte-awesome-color-picker";
   import rgeConf from "$lib/rge.conf.json";
   import rgeAbi from "$lib/rge.abi.json";
 
   let fUpdatePrice;
-  let priceText="2.0 ETH";
+  let priceText = "2.0 ETH";
   let destination = "";
   let coupon = "";
   function getRandomColor() {
-      // TODO Check color availability
-      return {r: Math.floor(Math.random() * 255),
-              g: Math.floor(Math.random() * 255),
-              b: Math.floor(Math.random() * 255)};
-    }
+    // TODO Check color availability
+    return {
+      r: Math.floor(Math.random() * 255),
+      g: Math.floor(Math.random() * 255),
+      b: Math.floor(Math.random() * 255),
+    };
+  }
 
-   let rgb = getRandomColor();
+  let rgb = getRandomColor();
   function validate(e) {
     console.log("TODO CHECK destination is a valid address");
   }
   function validateCoupon(e) {
     const couponText = document.getElementById("coupon");
-	if (coupon == "") {
-		couponText.classList.remove("border-green-500");
-		couponText.classList.remove("border-red-500");
-		return;
-	}
-	$contracts.pricing["isValidCoupon(bytes)"](coupon).then((isValid) => {
-	  console.log(isValid);
-	  if (isValid) {
-		couponText.classList.remove("border-red-500");
-		couponText.classList.add("border-green-500");
-		fUpdatePrice(rgb);
-	  } else {
-		couponText.classList.remove("border-green-500");
-		couponText.classList.add("border-red-500");
-	  }
-	}).catch(error => {
-		couponText.classList.remove("border-green-500");
-		couponText.classList.add("border-red-500");
-	  console.error("An error occurred when calling isValidCoupon:");
-	});
+    if (coupon == "") {
+      couponText.classList.remove("border-green-500");
+      couponText.classList.remove("border-red-500");
+      return;
+    }
+    $contracts.pricing["isValidCoupon(bytes)"](coupon)
+      .then((isValid) => {
+        console.log(isValid);
+        if (isValid) {
+          couponText.classList.remove("border-red-500");
+          couponText.classList.add("border-green-500");
+          fUpdatePrice(rgb);
+        } else {
+          couponText.classList.remove("border-green-500");
+          couponText.classList.add("border-red-500");
+        }
+      })
+      .catch((error) => {
+        couponText.classList.remove("border-green-500");
+        couponText.classList.add("border-red-500");
+        console.error("An error occurred when calling isValidCoupon:");
+      });
     console.log("TODO CHECK coupon is a valid coupon");
-	
   }
-   if ($connected) 
-   {
+  if ($connected) {
     evm.attachContract("rge", rgeConf["address"], rgeAbi["abi"]);
 
     onMount(async () => {
       destination = await $signer.getAddress();
       $contracts.rge["pricer()"]().then((pricerAddress) => {
-	    console.log(pricerAddress);
-	    evm.attachContract("pricing", pricerAddress, rgeAbi["price"]);
-	  });
+        console.log(pricerAddress);
+        evm.attachContract("pricing", pricerAddress, rgeAbi["price"]);
+      });
       const maxX = 128;
       const maxY = 24;
       const canvas = document.getElementById("canvas");
@@ -79,18 +81,31 @@
       let isEraserActive = false;
       let colorPrice = 0;
       fUpdatePrice = (rgb) => {
-        $contracts.rge["calcPrice(uint256,bytes)"]((rgb.r<<16) + (rgb.g<<8) + rgb.b, coupon == "" ? [] : coupon).then((priceWei) => {
-          colorPrice = priceWei;
-          price.innerText = ethers.utils.formatEther(priceWei).substring(0, 6) + " ETH";
-		  price.disabled = false;
-          priceText = "Code " + rgbToHex(rgb.r, rgb.g, rgb.b) + " Price " + price.innerText;
-          updateCanvasColors();
-        }).catch(error => {
-		  price.disabled = true;
-          priceText = "Code " + rgbToHex(rgb.r, rgb.g, rgb.b) + " already used or invalid coupon";
-		  console.error("An error occurred when calling calcPrice:", error);
-		});
-      }
+        $contracts.rge["calcPrice(uint256,bytes)"](
+          (rgb.r << 16) + (rgb.g << 8) + rgb.b,
+          coupon == "" ? [] : coupon
+        )
+          .then((priceWei) => {
+            colorPrice = priceWei;
+            price.innerText =
+              ethers.utils.formatEther(priceWei).substring(0, 6) + " ETH";
+            price.disabled = false;
+            priceText =
+              "Code " +
+              rgbToHex(rgb.r, rgb.g, rgb.b) +
+              " Price " +
+              price.innerText;
+            updateCanvasColors();
+          })
+          .catch((error) => {
+            price.disabled = true;
+            priceText =
+              "Code " +
+              rgbToHex(rgb.r, rgb.g, rgb.b) +
+              " already used or invalid coupon";
+            console.error("An error occurred when calling calcPrice:", error);
+          });
+      };
       eraseBtn.addEventListener("click", () => {
         drawing = false;
         isEraserActive = !isEraserActive;
@@ -194,7 +209,9 @@
           console.log("Calling mintEpitaph", sig, rgb256);
           // call the smart contract with 0.1 ETH
           //console.log($contracts.rge);
-          await $contracts.rge["mintEpitaphOf(uint256[12],uint256,address,bytes)"](sig, rgb256, destination, coupon == "" ? [] : coupon, {
+          await $contracts.rge[
+            "mintEpitaphOf(uint256[12],uint256,address,bytes)"
+          ](sig, rgb256, destination, coupon == "" ? [] : coupon, {
             value: colorPrice,
           });
         } catch (error) {
@@ -249,49 +266,65 @@
       }
 
       function rgbToHex(r, g, b) {
-        return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+        return (
+          "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)
+        );
       }
-  });
-}
+    });
+  }
 </script>
 
 <div>
-
   {#if $connected}
     {#if $chainId !== 1}
       <p>
         Your are connected to the wrong network ("{$chainData.name}")". Please
         connect to the mainnet
       </p>
-      {:else}
+    {:else}
       <pre style="color:aliceblue">
       Draw your message on the canvas below, it will be stored on the Ethereum blockchain eternarly.
 
       Press down lightly your finger where you want to start drawing on the canvas.
       And move your finger in the direction you wish to draw.
       
-      Use the erase button to gently erase pixel.</pre><br />
+      Use the erase button to gently erase pixel.</pre>
+      <br />
       <div class="flex items-stretch md:items-center">
-        <label for="address" class="block w-1/6 mb-2 text-sm font-medium text-gray-100 dark:text-white">In memory of </label>
-        <input type="text" bind:value={destination} on:input={e => validate(e)} id="address" class="bg-gray-50 w-3/6  border border-gray-300 text-gray-100 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="0xDE2..." required>
-    </div>
-    <br/>
+        <label
+          for="address"
+          class="block w-1/6 mb-2 text-sm font-medium text-gray-100 dark:text-white"
+          >In memory of
+        </label>
+        <input
+          type="text"
+          bind:value={destination}
+          on:input={(e) => validate(e)}
+          id="address"
+          class="bg-gray-50 w-3/6 border border-gray-300 text-gray-100 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          placeholder="0xDE2..."
+          required
+        />
+      </div>
+      <br />
       <div class="flex justify-center">
         <p>
-        <ColorPicker bind:rgb
+          <ColorPicker
+            bind:rgb
             label={priceText}
             isPopup={true}
             isInput={true}
             isAlpha={false}
             isDark={true}
             on:input={(event) => {
-          if (fUpdatePrice!=null) {
-            fUpdatePrice(event.detail.rgb);
-          } else {
-            console.log("fUpdatePrice is null");
-          }
-        }} />
-      </p>
+              if (fUpdatePrice != null) {
+                fUpdatePrice(event.detail.rgb);
+              } else {
+                console.log("fUpdatePrice is null");
+              }
+            }}
+          />
+        </p>
       </div>
       <canvas
         id="canvas"
@@ -307,8 +340,19 @@
         >
           Submit
         </button>
-        <label for="coupon" class="block w-1/6 mb-2 text-sm font-medium text-gray-100 dark:text-white">Coupon</label>
-        <input type="text" bind:value={coupon} on:input={e => validateCoupon(e)} id="coupon" class="bg-gray-50 w-1/6  border text-gray-100 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="0xDE2...">
+        <label
+          for="coupon"
+          class="block w-1/6 mb-2 text-sm font-medium text-gray-100 dark:text-white"
+          >Coupon</label
+        >
+        <input
+          type="text"
+          bind:value={coupon}
+          on:input={(e) => validateCoupon(e)}
+          id="coupon"
+          class="bg-gray-50 w-1/6 border text-gray-100 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          placeholder="0xDE2..."
+        />
         <button
           id="eraseBtn"
           class="block mt-4 px-4 py-2 text-base font-medium text-white bg-red-500 rounded-md shadow-md hover:bg-red-900 focus:outline-none focus:ring-red-500 focus:ring-offset-2"
@@ -317,9 +361,11 @@
       </div>
     {/if}
   {:else}
-    <p>
-      Please first <a href="/">connect</a>
-      connect to the mainnet network to be able to use this page.
+   <div class='h-[30vh] flex items-center justify-center p-20'>
+    <p class="text-white text-center">
+      Please first <a href="/" class="">connect</a>
+      to the mainnet network to be able to use this page!
     </p>
+   </div>
   {/if}
 </div>

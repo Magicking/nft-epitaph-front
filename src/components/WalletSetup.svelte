@@ -192,84 +192,102 @@
   $: account = $connected && $signer ? $signer.getAddress() : "";
 </script>
 
-<div class="flex items-center flex-col bg-black justify-start">
-  <h1 class="text-4xl text-white mt-24">Wallet Setup</h1>
+<section>
+  <div class="flex items-center flex-col bg-black justify-start">
+    <h1 class="text-4xl text-white mt-24 ml-10">Wallet Setup</h1>
 
-  {#if !$connected}
-    <div class="h-[80vh] flex items-center justify-center flex-col">
-      <div
-        class="flex items-center justify-between gap-x-4 flex-col md:flex-row lg:flex-row text-center md:text-start"
-      >
-        <p class="wallet_text">Use an external provider:</p>
+    <div>
+      {#if !$connected}
+        <div class="h-[80vh] flex items-center mt-20 flex-col">
+          <div
+            class="flex items-center justify-between text-center md:text-start gap-y-2 flex-col md:flex-row lg:flex-row"
+          >
+            <p class="wallet_text">Use an external provider:</p>
 
-        <button
-          class="block px-4 py-2 text-base font-small md:font-medium text-white blue rounded-md neon-btn text-center md:text-start"
-          disabled={pending}
-          on:click={connectOnBoard}>Connect with On Board</button
-        >
-      </div>
-      <hr class="my-10 blue" />
+            <button
+              class="block px-2 py-1 md:px-4 md:py-2 text-base font-sm md:font-md text-white blue rounded-md neon-btn text-center md:text-start"
+              disabled={pending}
+              on:click={connectOnBoard}>Connect with On Board</button
+            >
+          </div>
+          <hr class="my-10 blue" />
 
-      <div
-        class="flex items-center justify-between gap-x-4 flex-col md:flex-row lg:flex-row"
-      >
-        <p class="py-4 wallet_text">Or choose the "setProvider" method:</p>
+          <div
+            class="flex items-center justify-between text-center md:text-start gap-y-2 flex-col md:flex-row lg:flex-row"
+          >
+            <p class="py-4 wallet_text">Or choose the "setProvider" method:</p>
 
-        <button
-          class="block px-4 py-2 text-base font-medium text-white blue rounded-md neon-btn"
-          disabled={pending}
-          on:click={connect}>Connect with</button
-        >
-      </div>
-      <div>
-        <div class="dropdown">
-          <button on:click={() => (isOpen = !isOpen)} class=" bg-white text">
-            {selectedOption || "Select a provider"}
-          </button>
-          {#if isOpen}
-            <ul class="options">
-              {#each options as option}
-                <li class="option" on:click={() => selectOption(option)}>
-                  {option.label}
-                </li>
-              {/each}
-            </ul>
-          {/if}
+            <button
+              class="block px-4 py-2 text-base font-medium text-white blue rounded-md neon-btn"
+              disabled={pending}
+              on:click={connect}>Connect with</button
+            >
+          </div>
+          <div class="mt-4">
+            <div class="parent-container">
+              <button
+                on:click={() => (isOpen = !isOpen)}
+                class="bg-white text truncate-select"
+              >
+                {selectedOption || "Select a provider"}
+              </button>
+
+              {#if isOpen}
+                <ul class="options">
+                  {#each options as option}
+                    <li class="option" on:click={() => selectOption(option)}>
+                      {option.label}
+                    </li>
+                  {/each}
+                </ul>
+              {/if}
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-    {#if pending}connecting...{/if}
-  {:else}
-    <p>
-      You are now connected to the account {$signerAddress}.
-    </p>
-    <p>On the network {$chainData.name} (chainId: {$chainId})</p>
+        {#if pending}connecting...{/if}
+      {:else}
+        <p>
+          You are now connected to the account {$signerAddress}.
+        </p>
+        <p>On the network {$chainData.name} (chainId: {$chainId})</p>
 
-    <button class="button" on:click={disconnect}> Disconnect </button>
-    <button class="button" on:click={disconnectOnBoard}>
-      Disconnect OnBoard</button
-    >
-  {/if}
-</div>
+        <button class="button" on:click={disconnect}> Disconnect </button>
+        <button class="button" on:click={disconnectOnBoard}>
+          Disconnect OnBoard</button
+        >
+      {/if}
+    </div>
+  </div>
+</section>
 
 <style>
+  /* Parent container of the dropdown */
+  .parent-container {
+    position: relative;
+  }
+
+  /* Styles for the dropdown */
+  .options {
+    position: absolute;
+    background-color: white;
+    overflow-y: auto; /* For vertical scrolling */
+    max-height: 10rem;
+    max-width: 100%; /* Adjust this as needed */
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2); /* Optional: for better visibility */
+    z-index: 1000; /* To ensure dropdown appears above other content */
+  }
+
   .truncate-select {
-    width: 30rem; /* Fixed width */
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
   }
-
-  .truncate-select options {
-    width: 30rem;
-  }
-
   .wallet_text {
     color: #00ff00;
   }
 
   .options {
     position: absolute;
+    left: -20%;
     background-color: white;
     overflow-y: scroll;
     overflow-x: scroll;
@@ -282,7 +300,7 @@
     font-size: 10px;
     padding: 0.3rem;
     cursor: pointer;
-    max-width: 40rem;
+    max-width: 24rem;
   }
 
   .dropdown button {
