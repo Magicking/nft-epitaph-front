@@ -35,6 +35,14 @@
     dappUrl: "https://rge.6120.eu/",
   };
   const walletConnect = walletConnectModule(wcV2InitOptions);
+  let isOpen = false;
+  let selectedOption = "";
+
+  function selectOption(option) {
+    selectedOption = option.label;
+    type = option.value;
+    isOpen = false;
+  }
 
   let onboard = Onboard({
     wallets: [injected, walletConnect],
@@ -146,6 +154,23 @@
     }
   };
 
+  const options = [
+    { label: "Browser (window.ethereum)", value: "Browser" },
+    { label: "Localhost using account index 3", value: "Localhost3" },
+    {
+      label: "Localhost: (eg ganache or hardhat on http://127.0.0.1:8545)",
+      value: "Localhost",
+    },
+    { label: "Localhost using account index 4", value: "Localhost4" },
+    {
+      label: "Localhost but only provider (no signer)",
+      value: "LocalhostNull",
+    },
+    { label: "ethers.providers.InfuraProvider('goerli')", value: "Gnosis" },
+    { label: "ethers.providers.CloudflareProvider()", value: "Clouflare" },
+    // Add any other options you need here
+  ];
+
   const enable = async () => {
     pending = true;
     let WalletConnectProvider = window.WalletConnectProvider.default;
@@ -167,40 +192,51 @@
   $: account = $connected && $signer ? $signer.getAddress() : "";
 </script>
 
-<div class="flex h-screen items-center flex-col text-white">
-  <h1 class="text-4xl">Wallet Setup</h1>
+<div class="flex items-center flex-col bg-black justify-start">
+  <h1 class="text-4xl text-white mt-24">Wallet Setup</h1>
 
   {#if !$connected}
-    <div>
-      <p>Use an external provider</p>
-
-      <button
-        class="block mt-4 px-4 py-2 text-base font-medium text-white bg-[#00ff00] rounded-md shadow-md hover:bg-[#008b07] focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
-        disabled={pending}
-        on:click={connectOnBoard}>Connect with On Board</button
+    <div class="h-[80vh] flex items-center justify-center flex-col">
+      <div
+        class="flex items-center justify-between gap-x-4 flex-col md:flex-row lg:flex-row text-center md:text-start"
       >
-      <p class="py-4">Or choose the setProvider method:</p>
+        <p class="wallet_text">Use an external provider:</p>
 
-      <button
-        class="block mt-4 px-4 py-2 text-base font-medium text-white bg-[#00ff00] rounded-md shadow-md hover:bg-[#008b07] focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
-        disabled={pending}
-        on:click={connect}>Connect with</button
+        <button
+          class="block px-4 py-2 text-base font-small md:font-medium text-white blue rounded-md neon-btn text-center md:text-start"
+          disabled={pending}
+          on:click={connectOnBoard}>Connect with On Board</button
+        >
+      </div>
+      <hr class="my-10 blue" />
+
+      <div
+        class="flex items-center justify-between gap-x-4 flex-col md:flex-row lg:flex-row"
       >
+        <p class="py-4 wallet_text">Or choose the "setProvider" method:</p>
 
-      <select bind:value={type}>
-        <option value="Browser">Browser (window.ethereum)</option>
-        <option value="Localhost3">Localhost using account index 3</option>
-        <option value="Localhost"
-          >Localhost (eg ganache or hardhat on http://127.0.0.1:8545)</option
+        <button
+          class="block px-4 py-2 text-base font-medium text-white blue rounded-md neon-btn"
+          disabled={pending}
+          on:click={connect}>Connect with</button
         >
-        <option value="Localhost4">Localhost using account index 4</option>
-        <option value="LocalhostNull"
-          >Localhost but only provider (no signer)</option
-        >
-        <option value="Infura">ethers.providers.InfuraProvider('goerli')</option
-        >
-        <option value="Clouflare">ethers.providers.CloudflareProvider()</option>
-      </select>
+      </div>
+      <div>
+        <div class="dropdown">
+          <button on:click={() => (isOpen = !isOpen)} class=" bg-white text">
+            {selectedOption || "Select a provider"}
+          </button>
+          {#if isOpen}
+            <ul class="options">
+              {#each options as option}
+                <li class="option" on:click={() => selectOption(option)}>
+                  {option.label}
+                </li>
+              {/each}
+            </ul>
+          {/if}
+        </div>
+      </div>
     </div>
     {#if pending}connecting...{/if}
   {:else}
@@ -217,9 +253,43 @@
 </div>
 
 <style>
-  select {
-    margin-top: 1em;
-    padding: 0.5em;
-    font-size: 80%;
+  .truncate-select {
+    width: 30rem; /* Fixed width */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .truncate-select options {
+    width: 30rem;
+  }
+
+  .wallet_text {
+    color: #00ff00;
+  }
+
+  .options {
+    position: absolute;
+    background-color: white;
+    overflow-y: scroll;
+    overflow-x: scroll;
+    max-height: 10rem;
+    max-width: 30rem;
+  }
+
+  .option {
+    border: 1px solid gray;
+    font-size: 10px;
+    padding: 0.3rem;
+    cursor: pointer;
+    max-width: 40rem;
+  }
+
+  .dropdown button {
+    max-width: 30rem;
+    padding: 0px 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 </style>

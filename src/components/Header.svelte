@@ -3,12 +3,12 @@
   import scythe from "$lib/images/scythe.svg";
 </script>
 
-<header>
+<header class="w-full">
   <!-- <div class="corner flex items-center bg-black">
     <img src={scythe} alt="GPT4 SVG drawn scythe" />
   </div> -->
-  <nav class="w-full justify-center items-center text-white bg-black">
-    <img src="/src/lib/ui/images/chibi_knight.png" class="h-20" alt="" />
+  <nav class="w-full justify-center items-center text-white bg-black ">
+    <!-- <img src="/src/lib/ui/images/chibi_knight.png" class="h-20" alt="" /> -->
     <svg viewBox="0 0 2 3" aria-hidden="true">
       <path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
     </svg>
