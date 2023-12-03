@@ -1,10 +1,9 @@
 <script>
-  import { onMount } from "svelte";
+  import { onDestroy, onMount } from "svelte";
   import {
     defaultEvmStores as evm,
     connected,
     signer,
-    
     chainId,
     chainData,
     contracts,
@@ -13,20 +12,42 @@
   import ColorPicker from "svelte-awesome-color-picker";
   import rgeConf from "$lib/rge.conf.json";
   import rgeAbi from "$lib/rge.abi.json";
+  import { fade } from "svelte/transition";
 
   let fUpdatePrice;
   let priceText = "2.0 ETH";
   let destination = "";
   let coupon = "";
 
-  // isCopied = false
+  let isCopied = false;
 
   let showTooltip = false;
 
+  let canvasWidth;
+
   function copyToClipboard() {
-    navigator.clipboard.writeText(destination);
-    // Optional: Show confirmation or change tooltip text temporarily
+    navigator.clipboard.writeText(destination).then(() => {
+      isCopied = true;
+      setTimeout(() => {
+        isCopied = false;
+      }, 2000); // Reset after 2 seconds
+    });
   }
+
+  function updateCanvasWidth() {
+    // 896px width for medium or larger screens
+    canvasWidth = window.innerWidth >= 768 ? 896 : window.innerWidth;
+  }
+
+  onMount(() => {
+    updateCanvasWidth();
+    window.addEventListener("resize", updateCanvasWidth);
+  });
+
+  // Cleanup to remove the event listener when the component is destroyed
+  onDestroy(() => {
+    window.removeEventListener("resize", updateCanvasWidth);
+  });
 
   function getRandomColor() {
     // TODO Check color availability
@@ -328,7 +349,7 @@
                 type="text"
                 bind:value={destination}
                 id="address"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                class="bg-gray-50 blue border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
                 placeholder="0xDE2..."
                 required
               />
@@ -338,64 +359,86 @@
               <span
                 class="tool-tip absolute z-10 w-auto text-white bg-black rounded-md shadow-lg -translate-x-1/2 left-1/2"
               >
-                Click to copy
+                {isCopied ? "Copied!" : "Click to copy"}
+                <svg class="tooltip-svg" viewBox="0 0 20 10">
+                  <path d="M0,0 L10,10 L20,0 Z"></path>
+                </svg>
               </span>
             {/if}
           </div>
         </div>
 
         <br />
-        <div class="flex justify-center">
-          <p>
-            <ColorPicker
-              bind:rgb
-              label={priceText}
-              isPopup={true}
-              isInput={true}
-              isAlpha={false}
-              isDark={true}
-              on:input={(event) => {
-                if (fUpdatePrice != null) {
-                  fUpdatePrice(event.detail.rgb);
-                } else {
-                  console.log("fUpdatePrice is null");
-                }
-              }}
-            />
-          </p>
+        <div class="p-10">
+          <h1 class="text-white">Your Canvas</h1>
+          <div
+            class="flex items-center justify-center flex-col md:flex-row-reverse"
+          >
+            <div class="flex justify-center text-white text-sm">
+              <ColorPicker
+                bind:rgb
+                label={priceText}
+                isPopup={true}
+                isInput={true}
+                isAlpha={false}
+                isDark={true}
+                on:input={(event) => {
+                  if (fUpdatePrice != null) {
+                    fUpdatePrice(event.detail.rgb);
+                  } else {
+                    console.log("fUpdatePrice is null");
+                  }
+                }}
+              />
+            </div>
+            <div class="">
+              <canvas
+                id="canvas"
+                class="block w-full border-2 my-4 justify-center items-center mx-auto"
+                height="168px"
+                width={canvasWidth}
+              />
+            </div>
+          </div>
         </div>
-        <canvas
-          id="canvas"
-          class="block w-[896px] h-[168px] border-2 my-4 justify-center items-center mx-auto"
-          width="896px"
-          height="168px"
-        />
-        <br />
-        <div class="flex justify-between">
-          <button
-            id="price"
-            class="block mt-4 px-4 py-2 text-base font-medium text-white bg-blue-500 rounded-md shadow-md hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+        <div class="p-10 bg-black bottom-bar">
+          <br />
+          <div
+            class="flex justify-between flex-col md:flex-row gap-y-6 md:gap-y-0"
           >
-            Submit
-          </button>
-          <label
-            for="coupon"
-            class="block w-1/6 mb-2 text-sm font-medium text-gray-100 dark:text-white"
-            >Coupon</label
-          >
-          <input
-            type="text"
-            bind:value={coupon}
-            on:input={(e) => validateCoupon(e)}
-            id="coupon"
-            class="bg-gray-50 w-1/6 border text-gray-100 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="0xDE2..."
-          />
-          <button
-            id="eraseBtn"
-            class="block mt-4 px-4 py-2 text-base font-medium text-white bg-red-500 rounded-md shadow-md hover:bg-red-900 focus:outline-none focus:ring-red-500 focus:ring-offset-2"
-            >Erase</button
-          >
+            <div>
+              <label
+                for="coupon"
+                class="block w-56 mb-2 text-sm font-medium text-gray-100 dark:text-white"
+                >Coupon</label
+              >
+              <input
+                type="text"
+                bind:value={coupon}
+                on:input={(e) => validateCoupon(e)}
+                id="coupon"
+                class="bg-gray-50 w-1/6 border text-gray-100 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="0xDE2..."
+              />
+            </div>
+
+            <div>
+              <div class="text-white">
+                You can pay:
+                <button
+                  id="price"
+                  class=" w-full mt-4 neon-btn blue px-2 py-1 text-sm text-white rounded-md shadow-md focus:outline-none"
+                >
+                  Submit
+                </button>
+              </div>
+              <button
+                id="eraseBtn"
+                class="block w-full mt-4 px-4 py-2 text-base font-medium text-white bg-red-500 rounded-md shadow-md hover:bg-red-900 focus:outline-none focus:ring-red-500 focus:ring-offset-2"
+                >Erase</button
+              >
+            </div>
+          </div>
         </div>
       </div>
     {/if}
@@ -421,5 +464,23 @@
     justify-content: center;
     width: 200px;
     padding: 10px 20px;
+  }
+
+  .tooltip-svg {
+    position: absolute;
+    width: 20px;
+    height: 10px;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    overflow: visible;
+  }
+
+  .tooltip-svg path {
+    fill: black;
+  }
+
+  .bottom-bar {
+    /* border: 1px solid #4cc9ff; */
   }
 </style>
