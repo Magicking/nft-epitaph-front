@@ -4,7 +4,7 @@
     defaultEvmStores as evm,
     connected,
     signer,
-    signerAddress,
+    
     chainId,
     chainData,
     contracts,
@@ -18,6 +18,16 @@
   let priceText = "2.0 ETH";
   let destination = "";
   let coupon = "";
+
+  // isCopied = false
+
+  let showTooltip = false;
+
+  function copyToClipboard() {
+    navigator.clipboard.writeText(destination);
+    // Optional: Show confirmation or change tooltip text temporarily
+  }
+
   function getRandomColor() {
     // TODO Check color availability
     return {
@@ -282,90 +292,134 @@
         connect to the mainnet
       </p>
     {:else}
-      <pre style="color:aliceblue">
-      Draw your message on the canvas below, it will be stored on the Ethereum blockchain eternarly.
+      <div class="flex flex-col">
+        <div class="w-full flex items-center justify-evenly">
+          <div class=" flex flex-col text-white mt-5 p-6 gap-y-4 w-[50rem]">
+            <h1 class="text-green underline">Getting Started!</h1>
+            <p class="info-box">
+              Draw your message on the canvas below, it will be stored on the
+              Ethereum blockchain eternarly.
+            </p>
 
-      Press down lightly your finger where you want to start drawing on the canvas.
-      And move your finger in the direction you wish to draw.
-      
-      Use the erase button to gently erase pixel.</pre>
-      <br />
-      <div class="flex items-stretch md:items-center">
-        <label
-          for="address"
-          class="block w-1/6 mb-2 text-sm font-medium text-gray-100 dark:text-white"
-          >In memory of
-        </label>
-        <input
-          type="text"
-          bind:value={destination}
-          on:input={(e) => validate(e)}
-          id="address"
-          class="bg-gray-50 w-3/6 border border-gray-300 text-gray-100 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="0xDE2..."
-          required
+            <p class="info-box">
+              Press down lightly your finger where you want to start drawing on
+              the canvas. And move your finger in the direction you wish to
+              draw.
+            </p>
+
+            <p class="info-box">Use the erase button to gently erase pixel.</p>
+          </div>
+
+          <!-- svelte-ignore a11y-mouse-events-have-key-events -->
+          <div class="flex flex-col items-stretch md:items-center relative p-6">
+            <!-- svelte-ignore a11y-click-events-have-key-events -->
+            <div
+              on:mouseover={() => (showTooltip = true)}
+              on:mouseleave={() => (showTooltip = false)}
+              on:click={copyToClipboard}
+            >
+              <label
+                for="address"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+              >
+                In memory of:
+              </label>
+              <input
+                type="text"
+                bind:value={destination}
+                id="address"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                placeholder="0xDE2..."
+                required
+              />
+            </div>
+
+            {#if showTooltip}
+              <span
+                class="tool-tip absolute z-10 w-auto text-white bg-black rounded-md shadow-lg -translate-x-1/2 left-1/2"
+              >
+                Click to copy
+              </span>
+            {/if}
+          </div>
+        </div>
+
+        <br />
+        <div class="flex justify-center">
+          <p>
+            <ColorPicker
+              bind:rgb
+              label={priceText}
+              isPopup={true}
+              isInput={true}
+              isAlpha={false}
+              isDark={true}
+              on:input={(event) => {
+                if (fUpdatePrice != null) {
+                  fUpdatePrice(event.detail.rgb);
+                } else {
+                  console.log("fUpdatePrice is null");
+                }
+              }}
+            />
+          </p>
+        </div>
+        <canvas
+          id="canvas"
+          class="block w-[896px] h-[168px] border-2 my-4 justify-center items-center mx-auto"
+          width="896px"
+          height="168px"
         />
-      </div>
-      <br />
-      <div class="flex justify-center">
-        <p>
-          <ColorPicker
-            bind:rgb
-            label={priceText}
-            isPopup={true}
-            isInput={true}
-            isAlpha={false}
-            isDark={true}
-            on:input={(event) => {
-              if (fUpdatePrice != null) {
-                fUpdatePrice(event.detail.rgb);
-              } else {
-                console.log("fUpdatePrice is null");
-              }
-            }}
+        <br />
+        <div class="flex justify-between">
+          <button
+            id="price"
+            class="block mt-4 px-4 py-2 text-base font-medium text-white bg-blue-500 rounded-md shadow-md hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          >
+            Submit
+          </button>
+          <label
+            for="coupon"
+            class="block w-1/6 mb-2 text-sm font-medium text-gray-100 dark:text-white"
+            >Coupon</label
+          >
+          <input
+            type="text"
+            bind:value={coupon}
+            on:input={(e) => validateCoupon(e)}
+            id="coupon"
+            class="bg-gray-50 w-1/6 border text-gray-100 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="0xDE2..."
           />
-        </p>
-      </div>
-      <canvas
-        id="canvas"
-        class="block w-[896px] h-[168px] border-2 my-4 justify-center items-center mx-auto"
-        width="896px"
-        height="168px"
-      />
-      <br />
-      <div class="flex justify-between">
-        <button
-          id="price"
-          class="block mt-4 px-4 py-2 text-base font-medium text-white bg-blue-500 rounded-md shadow-md hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-        >
-          Submit
-        </button>
-        <label
-          for="coupon"
-          class="block w-1/6 mb-2 text-sm font-medium text-gray-100 dark:text-white"
-          >Coupon</label
-        >
-        <input
-          type="text"
-          bind:value={coupon}
-          on:input={(e) => validateCoupon(e)}
-          id="coupon"
-          class="bg-gray-50 w-1/6 border text-gray-100 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="0xDE2..."
-        />
-        <button
-          id="eraseBtn"
-          class="block mt-4 px-4 py-2 text-base font-medium text-white bg-red-500 rounded-md shadow-md hover:bg-red-900 focus:outline-none focus:ring-red-500 focus:ring-offset-2"
-          >Erase</button
-        >
+          <button
+            id="eraseBtn"
+            class="block mt-4 px-4 py-2 text-base font-medium text-white bg-red-500 rounded-md shadow-md hover:bg-red-900 focus:outline-none focus:ring-red-500 focus:ring-offset-2"
+            >Erase</button
+          >
+        </div>
       </div>
     {/if}
   {:else}
-   <div class='h-[30vh] flex items-center justify-center p-20'>
-    <p class="text-white text-center">
-      Please first <a href="/" class="">connect</a>
-      to the mainnet network to be able to use this page!
-    </p>
-   </div>
+    <div class="h-[30vh] flex items-center justify-center p-20">
+      <p class="text-white text-center">
+        Please first <a href="/" class="">connect</a>
+        to the mainnet network to be able to use this page!
+      </p>
+    </div>
   {/if}
 </div>
+
+<style>
+  .info-box {
+    font-size: 12px;
+  }
+
+  .tool-tip {
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    padding: 10px 20px;
+  }
+</style>
