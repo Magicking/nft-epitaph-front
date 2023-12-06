@@ -43,7 +43,7 @@ button.active {
   color: #00ff00;
 }
 
-.yelloy {
+.yellow {
   color: #f8f32b;
 }
 
@@ -71,7 +71,7 @@ button.active {
   box-shadow: 10px 10px 100px 10px rgb(85, 255, 0);
 }
 
-.yelloy:hover {
+.yellow:hover {
   background-color: #f8f32b;
   box-shadow: 10px 10px 100px 10px rgba(248, 243, 43, 1);
 }

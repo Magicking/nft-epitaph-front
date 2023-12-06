@@ -16,6 +16,7 @@
 
   import rgeConf from "$lib/rge.conf.json";
   import rgeAbi from "$lib/rge.abi.json";
+  import Loading from "./shared/Loading.svelte";
 
   const injected = injectedModule();
   const wcV2InitOptions = {
@@ -235,6 +236,7 @@
               {#if isOpen}
                 <ul class="options">
                   {#each options as option}
+                    <!-- svelte-ignore a11y-click-events-have-key-events -->
                     <li class="option" on:click={() => selectOption(option)}>
                       {option.label}
                     </li>
@@ -244,17 +246,23 @@
             </div>
           </div>
         </div>
-        {#if pending}connecting...{/if}
+        {#if pending}<Loading />{/if}
       {:else}
-        <p>
-          You are now connected to the account {$signerAddress}.
-        </p>
-        <p>On the network {$chainData.name} (chainId: {$chainId})</p>
+        <div class="flex flex-col h-screen text-white mt-10 w-[70vw] gap-y-2">
+          <div>
+            You are now connected to the account: <p class="signeraddress">
+              {$signerAddress}
+            </p>
+          </div>
+          <p>On the network {$chainData.name} (chainId: {$chainId})</p>
 
-        <button class="button" on:click={disconnect}> Disconnect </button>
-        <button class="button" on:click={disconnectOnBoard}>
-          Disconnect OnBoard</button
-        >
+          <button class="button neon-btn red" on:click={disconnect}>
+            Disconnect
+          </button>
+          <button class="button neon-btn yellow" on:click={disconnectOnBoard}>
+            Disconnect OnBoard</button
+          >
+        </div>
       {/if}
     </div>
   </div>
@@ -303,11 +311,8 @@
     max-width: 24rem;
   }
 
-  .dropdown button {
-    max-width: 30rem;
-    padding: 0px 10px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  .signeraddress {
+    word-wrap: break-word;
+    color: #4cc9f0;
   }
 </style>
