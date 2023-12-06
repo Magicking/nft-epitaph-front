@@ -37,13 +37,13 @@
         Epitaph {getIndex()}ª
       </h2>
       <p>
-        In memory of: <span class="technoText">
+        In memory of: <span class="technoText" style="word-wrap: break-word;">
           {$GraveyardStore1[getIndex()].attributes[0].memoryOf}
         </span>
       </p>
 
       <h2 class="my-3">Details</h2>
-      <div class="ml-10">
+      <div class="flex flex-col ml-10 gap-y-2">
         <div class="flex items-center justify-start gap-y-3">
           <p class="w-[28rem]">
             Color:
@@ -61,15 +61,19 @@
               )}
             {/if}
           </p>
-          <button
-            on:click={() => (showRgb = !showRgb)}
-          >
+          <button on:click={() => (showRgb = !showRgb)}>
             {#if showRgb}Show RGB{:else}Show HEX Code{/if}
           </button>
         </div>
-        <p>Owner: {$GraveyardStore1[getIndex()].attributes[6].ownerOf}</p>
         <p>
-          Previous Owner: <span class="technoText"
+          Owner: <span class="technoText" style="word-wrap: break-word;">
+            {$GraveyardStore1[getIndex()].attributes[6].ownerOf}
+          </span>
+        </p>
+        <p>
+          Previous Owner: <span
+            class="technoText"
+            style="word-wrap: break-word;"
             >{$GraveyardStore1[getIndex()].attributes[0].memoryOf}</span
           >
         </p>
@@ -91,7 +95,7 @@
       </div>
     </div>
     <img
-      class="pxl justify-center items-center mx-auto my-4"
+      class="pxl justify-center items-center mx-auto my-4 px-4"
       alt="NFT {getIndex()}"
       src={$GraveyardStore1[getIndex()].image}
     />
