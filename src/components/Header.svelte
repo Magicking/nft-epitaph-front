@@ -1,157 +1,181 @@
 <script>
   import { page } from "$app/stores";
+  import { onDestroy, onMount } from "svelte";
   import { locale, translation } from "../lib/stores/i18n";
 
   $: t = $translation;
   $: lang = $locale;
 
-  function setLanguage(lang) {
-    console.log(lang)
-    if (lang === "en-US") {
-      locale.set("en-US");
-    } else if (lang === "fr-FR") {
-      locale.set("fr-FR");
+  let menuOpen = false;
+  let deviceWidth;
+  let device;
+
+  function updateDeviceWidth() {
+    deviceWidth = window.innerWidth;
+    device = deviceWidth > 768 ? "desktop" : "mobile";
+  }
+
+  onMount(() => {
+    if (typeof window !== "undefined") {
+      updateDeviceWidth();
+
+      window.addEventListener("resize", updateDeviceWidth);
     }
-    // history.back();
+  });
+
+  // onDestroy(() => {
+  //   window.removeEventListener("resize", updateDeviceWidth);
+  // });
+
+  function setLanguage(lang) {
+    locale.set(lang);
+  }
+
+  function toggleMenu() {
+    menuOpen = !menuOpen;
   }
 </script>
 
-<header class="w-full">
-  <!-- <div class="corner flex items-center bg-black">
-    <img src={scythe} alt="GPT4 SVG drawn scythe" />
-  </div> -->
-  <nav class="w-full justify-center items-center text-white bg-black">
-    <!-- <img src="/src/lib/ui/images/chibi_knight.png" class="h-20" alt="" /> -->
-    <svg viewBox="0 0 2 3" aria-hidden="true">
-      <path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
-    </svg>
-    <ul>
-      <!-- <li class="text-black">
-        <img src={scythe} alt="GPT4 SVG drawn scythe" />
-      </li> -->
-      <li
-        class="rainbowText"
-        aria-current={$page.url.pathname === "/" ? "page" : undefined}
+<header class="bg-gray-800 text-white">
+  <div class="px-10">
+    <div class="flex w-full md:flex-row justify-between h-16">
+      <div class="flex items-center">
+        <h4 class="text-sm">Reapers GE</h4>
+      </div>
+      <div class="hidden md:flex items-center">
+        <div class="ml-10 flex items-center space-x-4">
+          <p
+            class="rainbowText"
+            aria-current={$page.url.pathname === "/" ? "page" : undefined}
+          >
+            <a href="/"> {t("Header.Graveyard")} </a>
+          </p>
+          <p
+            class="rainbowText"
+            aria-current={$page.url.pathname === "/about" ? "page" : undefined}
+          >
+            <a href="/mint">{t("Header.Souldraw")}</a>
+          </p>
+          <p
+            class="rainbowText"
+            aria-current={$page.url.pathname.startsWith("/ethers/set")
+              ? "page"
+              : undefined}
+          >
+            <a href="/connect">{t("Header.Wallet")}</a>
+          </p>
+        </div>
+      </div>
+      <div class=" items-center hidden md:flex space-x-2">
+        <button
+          class="px-3 py-2 rounded-md text-sm font-small {lang === 'en-US'
+            ? 'bg-gray-900'
+            : 'bg-gray-700 hover:bg-gray-600'}"
+          on:click={() => setLanguage("en-US")}
+        >
+          English
+        </button>
+        <button
+          class="px-3 py-2 rounded-md text-sm font-small {lang === 'fr-FR'
+            ? 'bg-gray-900'
+            : 'bg-gray-700 hover:bg-gray-600'}"
+          on:click={() => setLanguage("fr-FR")}
+        >
+          Français
+        </button>
+      </div>
+      <div class="mr-2 flex md:hidden">
+        <!-- Mobile menu button -->
+        <button
+          on:click={toggleMenu}
+          class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none"
+        >
+          <span class="sr-only">Open main menu</span>
+          <!-- Icon when menu is closed. -->
+          <svg
+            class="{menuOpen ? 'hidden' : 'block'} h-6 w-6"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16m-7 6h7"
+            />
+          </svg>
+          <!-- Icon when menu is open. -->
+          <svg
+            class="{menuOpen ? 'block' : 'hidden'} h-6 w-6"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- Mobile menu, show/hide based on menu state -->
+  <div class="{menuOpen ? 'block' : 'hidden'} md:hidden bg-gray-800">
+    <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+      <!-- Duplicate Navigation links for mobile -->
+      <a
+        href="/"
+        class="block px-3 py-2 rounded-md text-sm text-white hover:bg-gray-700"
       >
-        <a href="/"> {t("Header.Graveyard")} </a>
-      </li>
-      <li
-        class="rainbowText"
-        aria-current={$page.url.pathname === "/about" ? "page" : undefined}
+        {t("Header.Graveyard")}
+      </a>
+      <a
+        href="/mint"
+        class="block px-3 py-2 rounded-md text-sm text-white hover:bg-gray-700"
       >
-        <a href="/mint">{t("Header.Souldraw")}</a>
-      </li>
-      <li
-        class="rainbowText"
-        aria-current="{$page.url.pathname.startsWith('/ethers/set')
-          ? 'page'
-          : undefined}x"
+        {t("Header.Souldraw")}
+      </a>
+      <a
+        href="/connect"
+        class="block px-3 py-2 rounded-md text-sm text-white hover:bg-gray-700"
       >
-        <a href="/connect">{t("Header.Wallet")}</a>
-      </li>
-      <button
-        on:click={() => {
-          setLanguage("en-US");
-        }}>English</button
-      >
-      <button
-        on:click={() => {
-          setLanguage("fr-FR");
-        }}>French</button
-      >
-    </ul>
-    <svg viewBox="0 0 2 3" aria-hidden="true">
-      <path d="M0,0 L0,3 C0.5,3 0.5,3 1,2 L2,0 Z" />
-    </svg>
-  </nav>
-
-  <!-- <div class="corner flex items-center">
-    <img src={scythe} alt="GPT4 SVG drawn scythe" />
-  </div> -->
-  <!-- 
-    background-image: url("/src/lib/ui/images/header_bg.png");
-        background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-
-   -->
+        {t("Header.Wallet")}
+      </a>
+      <!-- Language Buttons for mobile -->
+      <div class="px-3 py-2">
+        <button
+          class="px-3 py-2 rounded-md text-sm font-small {lang === 'en-US'
+            ? 'bg-gray-900'
+            : 'bg-gray-700 hover:bg-gray-600'}"
+          on:click={() => setLanguage("en-US")}
+        >
+          English
+        </button>
+        <button
+          class="px-3 py-2 rounded-md text-sm font-small {lang === 'fr-FR'
+            ? 'bg-gray-900'
+            : 'bg-gray-700 hover:bg-gray-600'}"
+          on:click={() => setLanguage("fr-FR")}
+        >
+          Français
+        </button>
+      </div>
+    </div>
+  </div>
 </header>
 
 <style>
-  header {
-    display: flex;
-    justify-content: space-between;
-    border: 1px solid #4cc9ff;
-  }
-  nav {
-    display: flex;
-    justify-content: center;
-    height: 6rem;
-    --background: rgba(0, 0, 0, 0.7);
-  }
-
-  svg {
-    width: 2em;
-    height: 3em;
-    display: block;
-  }
-
-  path {
-    fill: var(--background);
-  }
-
-  ul {
-    position: relative;
-    padding: 0;
-    margin: 0;
-    height: 3em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    list-style: none;
-    background: var(--background);
-    background-size: contain;
-  }
-
-  li {
-    position: relative;
-    height: 100%;
-  }
-
-  li[aria-current="page"]::before {
-    --size: 6px;
-    content: "";
-    width: 0;
-    font-weight: bold;
-    height: 0;
-    position: absolute;
-    top: 0;
-    left: calc(50% - var(--size));
-    border: var(--size) solid transparent;
-    border-top: var(--size) solid var(--color-theme-1);
-  }
-
-  nav a {
-    display: flex;
-    height: 100%;
-    align-items: center;
-    padding: 0 0.5rem;
-    /* color: var(--color-text); */
-    font-weight: 700;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    text-decoration: none;
-    transition: color 0.2s linear;
-  }
-
-  a:hover {
-    color: var(--color-theme-1);
-  }
-
   /* Rainbow Text */
   .rainbowText {
-    font-size: 70px;
+    /* font-size: 70px; */
     color: white;
 
     -webkit-background-clip: text;
