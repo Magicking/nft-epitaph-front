@@ -3,10 +3,16 @@
   import { locale, translation } from "../lib/stores/i18n";
 
   $: t = $translation;
+  $: lang = $locale;
 
   function setLanguage(lang) {
-    locale.set(lang);
-    history.back();
+    console.log(lang)
+    if (lang === "en-US") {
+      locale.set("en-US");
+    } else if (lang === "fr-FR") {
+      locale.set("fr-FR");
+    }
+    // history.back();
   }
 </script>
 
@@ -43,19 +49,16 @@
       >
         <a href="/connect">{t("Header.Wallet")}</a>
       </li>
-      <label class="relative inline-flex items-center cursor-pointer">
-        <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300"
-          >English</span
-        >
-        <input type="checkbox" bind:checked={lang} class="sr-only peer" />
-
-        <div
-          class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
-        ></div>
-        <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300"
-          >French</span
-        >
-      </label>
+      <button
+        on:click={() => {
+          setLanguage("en-US");
+        }}>English</button
+      >
+      <button
+        on:click={() => {
+          setLanguage("fr-FR");
+        }}>French</button
+      >
     </ul>
     <svg viewBox="0 0 2 3" aria-hidden="true">
       <path d="M0,0 L0,3 C0.5,3 0.5,3 1,2 L2,0 Z" />

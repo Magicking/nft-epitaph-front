@@ -8,12 +8,12 @@ export type TranslationKey =
 
 // Define the translations interface for each locale
 export interface Translations {
-  "en-us": { [key in TranslationKey]: string };
+  "en-US": { [key in TranslationKey]: string };
   "fr-FR": { [key in TranslationKey]: string };
 }
 
 const translations: Translations = {
-  "en-us": {
+  "en-US": {
     "Header.Graveyard": "Graveyard",
     "Header.Souldraw": "Souldraw",
     "Header.Wallet": "Wallet",
