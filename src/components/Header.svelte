@@ -40,7 +40,7 @@
   <div class="px-10">
     <div class="flex w-full md:flex-row justify-between h-16">
       <div class="flex items-center">
-        <h4 class="text-sm">Reapers GE</h4>
+        <h4 class="text-sm"><a href="/">Reapers GE</a></h4>
       </div>
       <div class="hidden md:flex items-center">
         <div class="ml-10 flex items-center space-x-4">
@@ -66,7 +66,9 @@
           </p>
         </div>
       </div>
-      <div class=" items-center hidden md:flex space-x-2">
+      <!-- Language Buttons for Desktop  - May use later on-->
+
+      <!-- <div class=" items-center hidden md:flex space-x-2">
         <button
           class="px-3 py-2 rounded-md text-sm font-small {lang === 'en-US'
             ? 'bg-gray-900'
@@ -83,7 +85,7 @@
         >
           Français
         </button>
-      </div>
+      </div> -->
       <div class="mr-2 flex md:hidden">
         <!-- Mobile menu button -->
         <button
@@ -149,8 +151,8 @@
       >
         {t("Header.Wallet")}
       </a>
-      <!-- Language Buttons for mobile -->
-      <div class="px-3 py-2">
+      <!-- Language Buttons for mobile  - May use later on-->
+      <!-- <div class="px-3 py-2">
         <button
           class="px-3 py-2 rounded-md text-sm font-small {lang === 'en-US'
             ? 'bg-gray-900'
@@ -167,7 +169,7 @@
         >
           Français
         </button>
-      </div>
+      </div> -->
     </div>
   </div>
 </header>
@@ -177,7 +179,6 @@
   .rainbowText {
     /* font-size: 70px; */
     color: white;
-
     -webkit-background-clip: text;
   }
   .rainbowText:hover {

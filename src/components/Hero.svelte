@@ -1,4 +1,4 @@
-<section class="h-[90vh]">
+<section class="h-[90vh] bg-black">
   <div class="flex items-center p-5 h-full w-full justify-between">
     <div class="flex-1 flex items-center justify-center">
       <div class="md:min-w-[34rem]">
@@ -8,19 +8,21 @@
           Reapers Gambit <br />
           <span class="text-brightGreen epitaph">Epitaph</span>
         </h1>
-        <h2 class="text-lg text-white md:min-w-[30rem] sm:text-start md:text-center">
+        <h2
+          class="text-lg text-white md:min-w-[30rem] sm:text-start md:text-center"
+        >
           Forge your NFT with the Blades of ReaperGambit
         </h2>
-        <div class="flex mt-10 w-56 flex items-center justify-center w-full ">
+        <div class="flex mt-10 w-56 flex items-center justify-center w-full">
           <button
             class="bg-white text-black text-sm px-5 py-1 md:px-10 md:py-2 rounded-lg mr-4 neon-btn blue"
           >
-            Mint
+            <a href="/mint"> Mint </a>
           </button>
           <button
-            class="bg-white text-black text-sm px-5 py-1 md:px-10  md:py-2  rounded-lg neon-btn green"
+            class="bg-white text-black text-sm px-5 py-1 md:px-10 md:py-2 rounded-lg neon-btn green"
           >
-            Connect Wallet
+            <a href="/connect"> Connect Wallet </a>
           </button>
         </div>
       </div>

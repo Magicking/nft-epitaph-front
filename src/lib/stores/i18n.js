@@ -3,7 +3,7 @@ import translations from "$lib/translations/translations.ts";
 
 
 // Create a writable store for the current locale
-export const locale = writable("fr-FR");
+export const locale = writable("en-US");
 
 // Get all available locales from the translations object
 export const locales = Object.keys(translations);

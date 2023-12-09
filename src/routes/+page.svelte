@@ -8,7 +8,6 @@
   } from "svelte-ethers-store";
   import Graveyard from "$lib/Graveyard.svelte";
   import Hero from "../components/Hero.svelte";
-  import WalletSetup from "../components/WalletSetup.svelte";
 </script>
 
 <svelte:head>
@@ -25,6 +24,5 @@
     {/if}
   {:else}
     <Hero />
-    <WalletSetup />
   {/if}
 </div>
