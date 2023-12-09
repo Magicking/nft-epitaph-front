@@ -1,5 +1,5 @@
 <script>
-  import { range } from "./range.js";
+  import { range } from "$lib/range.js";
   import {
     defaultEvmStores as evm,
     connected,
@@ -8,11 +8,11 @@
     contracts,
   } from "svelte-ethers-store";
 
-  import rgeConf from "./rge.conf.json";
-  import rgeAbi from "./rge.abi.json";
+  import rgeConf from "$lib/rge.conf.json";
+  import rgeAbi from "$lib/rge.abi.json";
   evm.attachContract("rge", rgeConf["address"], rgeAbi["abi"]);
-  import { GraveyardStore1 } from "./stores/graveyard.js";
-  import Loading from "../components/shared/Loading.svelte";
+  import { GraveyardStore1 } from "../lib/stores/graveyard.js";
+  import Loading from "./shared/Loading.svelte";
 </script>
 
 <div>

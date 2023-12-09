@@ -3,11 +3,9 @@
     defaultEvmStores as evm,
     connected,
     chainId,
-    chainData,
-    contracts,
   } from "svelte-ethers-store";
-  import Graveyard from "$lib/Graveyard.svelte";
   import Hero from "../components/Hero.svelte";
+  import Graveyard from "../components/Graveyard.svelte";
 </script>
 
 <svelte:head>

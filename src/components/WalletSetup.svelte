@@ -3,8 +3,6 @@
 
   import {
     connected,
-    provider,
-    signer,
     chainData,
     chainId,
     signerAddress,
@@ -82,7 +80,7 @@
       evm.setProvider(provider);
       evm.attachContract("rge", rgeConf["address"], rgeAbi["abi"]);
     }
-    updateAlreadyConnectedWallets();
+    // updateAlreadyConnectedWallets();
   });
 
   if (typeof window !== "undefined") {
@@ -96,6 +94,9 @@
             label: alreadyConnectedWallets[0],
             disableModals: true,
           },
+        })
+        .then(() => {
+          console.log(alreadyConnectedWallets);
         })
         .catch(console.error);
     }
@@ -172,25 +173,26 @@
     // Add any other options you need here
   ];
 
-  const enable = async () => {
-    pending = true;
-    let WalletConnectProvider = window.WalletConnectProvider.default;
-    const provider = new WalletConnectProvider({
-      infuraId: import.meta.env.VITE_INFURA_API_KEY,
-    });
-    //  Enable session (triggers QR Code modal)
-    await provider.enable();
-    evm.setProvider(provider);
-    pending = false;
-  };
+  // const enable = async () => {
+  //   pending = true;
+  //   let WalletConnectProvider = window.WalletConnectProvider.default;
+  //   const provider = new WalletConnectProvider({
+  //     infuraId: import.meta.env.VITE_INFURA_API_KEY,
+  //   });
+  //   //  Enable session (triggers QR Code modal)
+  //   await provider.enable();
+  //   evm.setProvider(provider);
+  //   pending = false;
+  // };
 
   const disconnect = async () => {
     await evm.disconnect();
     pending = false;
   };
 
-  $: network = $connected ? $provider.getNetwork() : "";
-  $: account = $connected && $signer ? $signer.getAddress() : "";
+  // Might come in handy later
+  // $: network = $connected ? $provider.getNetwork() : "";
+  // $: account = $connected && $signer ? $signer.getAddress() : "";
 </script>
 
 <section>
