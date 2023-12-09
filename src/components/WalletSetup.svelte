@@ -80,7 +80,7 @@
       evm.setProvider(provider);
       evm.attachContract("rge", rgeConf["address"], rgeAbi["abi"]);
     }
-    // updateAlreadyConnectedWallets();
+    updateAlreadyConnectedWallets();
   });
 
   if (typeof window !== "undefined") {
@@ -114,10 +114,14 @@
     const connectedWalletsLabels = onboard.state
       .get()
       .wallets.map(({ label }) => label);
-    window.sessionStorage.setItem(
-      "ConnectedWallets",
-      JSON.stringify(connectedWalletsLabels)
-    );
+
+    if (connectedWalletsLabels.length > 0) {
+      console.log(connectedWalletsLabels);
+      window.sessionStorage.setItem(
+        "ConnectedWallets",
+        JSON.stringify(connectedWalletsLabels)
+      );
+    } 
   }
 
   let type;
@@ -187,6 +191,7 @@
 
   const disconnect = async () => {
     await evm.disconnect();
+    window.sessionStorage.removeItem("ConnectedWallets");
     pending = false;
   };
 

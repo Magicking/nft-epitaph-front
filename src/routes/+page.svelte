@@ -6,6 +6,13 @@
   } from "svelte-ethers-store";
   import Hero from "../components/Hero.svelte";
   import Graveyard from "../components/Graveyard.svelte";
+  import { onMount } from "svelte";
+  import { useConnectToWallet } from "$lib/utils/useConnectToWallet";
+
+
+  onMount(() => {
+    useConnectToWallet();
+  });
 </script>
 
 <svelte:head>

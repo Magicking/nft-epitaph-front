@@ -305,7 +305,7 @@
   }
 </script>
 
-<div>
+<div class="min-h-screen">
   {#if $connected}
     {#if $chainId !== 1}
       <p>
@@ -314,8 +314,10 @@
       </p>
     {:else}
       <div class="flex flex-col">
-        <div class="w-full flex items-center justify-evenly ">
-          <div class=" flex flex-col text-white mt-5 p-6 gap-y-4 w-[50rem] my-0 md:my-20">
+        <div class="w-full flex items-center justify-evenly">
+          <div
+            class=" flex flex-col text-white mt-5 p-6 gap-y-4 w-[50rem] my-0 md:my-20"
+          >
             <h1 class="text-green underline">Getting Started!</h1>
             <p class="info-box">
               Draw your message on the canvas below, it will be stored on the

@@ -1,24 +1,19 @@
 <script>
   import { range } from "$lib/range.js";
-  import {
-    defaultEvmStores as evm,
-    connected,
-    chainId,
-    chainData,
-    contracts,
-  } from "svelte-ethers-store";
+  import { defaultEvmStores as evm, contracts } from "svelte-ethers-store";
 
   import rgeConf from "$lib/rge.conf.json";
   import rgeAbi from "$lib/rge.abi.json";
   evm.attachContract("rge", rgeConf["address"], rgeAbi["abi"]);
   import { GraveyardStore1 } from "../lib/stores/graveyard.js";
-  import Loading from "./shared/Loading.svelte";
 </script>
 
-<div>
+<div class="min-h-screen">
   {#if $contracts.rge}
     {#await $contracts.rge.totalSupply()}
-      <Loading />
+      <h1 class="text-white text-center h-56">
+        Loading...
+      </h1>
     {:then totalSupply}
       <div class="flex flex-col items-evenly justify-evenly min-h-[90vh]">
         <p class="py-4 text-white text-center text-3xl">Total {totalSupply}</p>
