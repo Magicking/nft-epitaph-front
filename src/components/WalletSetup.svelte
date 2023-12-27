@@ -54,7 +54,7 @@
       },
     ],
     appMetadata: {
-      name: "NFT EPITAPH",
+      name: "RG EPITAPH",
       description: "Research tokens smarter and faster.",
       recommendedInjectedWallets: [
         { name: "MetaMask", url: "https://metamask.io" },
