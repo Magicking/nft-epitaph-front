@@ -17,7 +17,7 @@
 
 <svelte:head>
   <title>RG Epitaph</title>
-  <meta name="description" content="Svelte demo app" />
+  <meta name="description" content="RG Epitaph" />
 </svelte:head>
 
 <div>
