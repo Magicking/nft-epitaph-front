@@ -6,7 +6,7 @@
           class="text-5xl text-white mb-2 flex flex-col md:items-center justify-center items-start"
         >
           Reaper Gambit <br />
-          <span class="text-brightGreen epitaph">Epitaph</span>
+          <span class="text-brightGreen epitaph">Epitaph (RG Epitaph)</span>
         </h1>
         <h2
           class="text-lg text-white md:min-w-[30rem] sm:text-start md:text-center"
