@@ -16,7 +16,7 @@
 </script>
 
 <svelte:head>
-  <title>Home</title>
+  <title>RG Epitaph</title>
   <meta name="description" content="Svelte demo app" />
 </svelte:head>
 
