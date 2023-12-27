@@ -40,7 +40,7 @@
   <div class="px-10">
     <div class="flex w-full md:flex-row justify-between h-16">
       <div class="flex items-center">
-        <h4 class="text-sm"><a href="/">Reapers GE</a></h4>
+        <h4 class="text-sm"><a href="/">RG Epitaph</a></h4>
       </div>
       <div class="hidden md:flex items-center">
         <div class="ml-10 flex items-center space-x-4">
