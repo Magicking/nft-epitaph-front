@@ -1,18 +1,18 @@
 <script>
-  import Header from "./Header.svelte";
   import "../app.css";
+  import Header from "../components/Header.svelte";
+  import Footer from "../components/Footer.svelte";
+
+
 </script>
 
 <div class="min-h-screen bg-stone-900">
+  <!-- Header -->
   <Header />
 
-  <main
-    class="flex flex-col  bg-black rounded-lg justify-center px-12 py-8 mx-12 max-w-auto items-strecth "
-  >
-    <slot />
-  </main>
+  <!-- All the Content falls here -->
+  <slot />
 
-  <footer class="flex flex-col items-center py-4">
-    <!-- footer content here -->
-  </footer>
+  <!-- Footer -->
+  <Footer />
 </div>

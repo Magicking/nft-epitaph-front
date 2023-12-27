@@ -3,7 +3,8 @@
 </svelte:head>
 
 <script>
-  import Providers from '$lib/Providers.svelte'
+  import WalletSetup from "../../components/WalletSetup.svelte";
+
 </script>
 
-<Providers />
+<WalletSetup />

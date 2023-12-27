@@ -1,22 +1,33 @@
+<script>
+  import {
+    defaultEvmStores as evm,
+    connected,
+    chainId,
+  } from "svelte-ethers-store";
+  import Hero from "../components/Hero.svelte";
+  import Graveyard from "../components/Graveyard.svelte";
+  import { onMount } from "svelte";
+  import { useConnectToWallet } from "$lib/utils/useConnectToWallet";
+
+
+  onMount(() => {
+    useConnectToWallet();
+  });
+</script>
+
 <svelte:head>
-	<title>Home</title>
-	<meta name="description" content="Svelte demo app" />
+  <title>RG Epitaph</title>
+  <meta name="description" content="RG Epitaph" />
 </svelte:head>
 
-<script>
-	import { defaultEvmStores as evm, connected, chainId, chainData, contracts } from 'svelte-ethers-store'
-	import Providers from '$lib/Providers.svelte'
-	import Graveyard from '$lib/Graveyard.svelte'
-  </script>
-  
 <div>
-  {#if $connected }
-  {#if $chainId !== 1 }
-	TODO: Warning not on Ethereum Mainnet
-	{:else}
-		<Graveyard />
-	{/if}
+  {#if $connected}
+    {#if $chainId !== 1}
+      TODO: Warning not on Ethereum Mainnet
+    {:else}
+      <Graveyard />
+    {/if}
   {:else}
-		<Providers />
+    <Hero />
   {/if}
 </div>

@@ -1,6 +1,7 @@
 {
   "name": "nft-epitaph-front",
   "version": "0.0.1",
+  "type": "module",
   "scripts": {
     "dev": "vite dev --host 0.0.0.0",
     "build": "vite build",
@@ -8,12 +9,14 @@
     "lint": "eslint src --ext .js,.svelte"
   },
   "dependencies": {
+    "@sveltejs/adapter-static": "^2.0.3",
     "@web3-onboard/core": "^2.21.0",
     "@web3-onboard/injected-wallets": "^2.10.5",
     "@web3-onboard/ledger": "^2.5.2",
     "@web3-onboard/walletconnect": "^2.4.6",
     "highlight.js": "^11.6.0",
-    "intl-messageformat": "^10.5.8"
+    "intl-messageformat": "^10.5.8",
+    "svelte-preprocess": "^5.1.1"
   },
   "devDependencies": {
     "@fontsource/fira-mono": "^4.5.10",
@@ -31,6 +34,5 @@
     "svelte-highlight": "^6.2.1",
     "tailwindcss": "^3.3.2",
     "vite": "^4.0.0"
-  },
-  "type": "module"
+  }
 }
