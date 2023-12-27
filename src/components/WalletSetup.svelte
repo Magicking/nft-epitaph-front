@@ -55,7 +55,7 @@
     ],
     appMetadata: {
       name: "RG EPITAPH",
-      description: "Research tokens smarter and faster.",
+      description: "RG Epitaph drawing interface.",
       recommendedInjectedWallets: [
         { name: "MetaMask", url: "https://metamask.io" },
         { name: "WalletConnect", url: "https://walletconnect.com/" },
