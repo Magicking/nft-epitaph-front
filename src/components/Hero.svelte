@@ -5,7 +5,7 @@
         <h1
           class="text-5xl text-white mb-2 flex flex-col md:items-center justify-center items-start"
         >
-          Reapers Gambit <br />
+          Reaper Gambit <br />
           <span class="text-brightGreen epitaph">Epitaph</span>
         </h1>
         <h2
