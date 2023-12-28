@@ -9,10 +9,15 @@ jobs:
   front-tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Build Svelte Application
+        uses: actions/setup-node@v3.6.0
         with:
-          submodules: recursive
+          node-version: "21.2.0"
+          cache: "npm"
+          cache-dependency-path: package-lock.json
       - name: Install deps
         run: npm install
       - name: Linting tests
         run: npm run lint
+      - name: Linting tests
+        run: npm run build
