@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="description" content="Svelte demo app" />
+		<link rel="icon" href="./favicon.png" />
+		<meta name="viewport" content="width=device-width" />
+        <script type="text/javascript" src="https://unpkg.com/@walletconnect/web3-provider@1.7.0/dist/umd/index.min.js"></script>
+		
+		<link href="./_app/immutable/assets/0.a94507af.css" rel="stylesheet">
+		<link href="./_app/immutable/assets/5.d4b8f2b9.css" rel="stylesheet">
+		<link rel="modulepreload" href="./_app/immutable/entry/start.bfb8d66f.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/index.991a8b25.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/singletons.7727c0cf.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/index.2c800dea.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/app.0dd5ffb3.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/preload-helper.a4192956.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/0.18090874.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/stores.d9321448.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/i18n.51c911f7.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/5.d951a742.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/rge.abi.0fd34cee.js">
+	</head>
+	<body data-sveltekit-preload-data="hover">
+		<div style="display: contents">
+
+
+<div class="min-h-screen bg-stone-900">
+  <header class="bg-gray-800 text-white"><div class="px-10"><div class="flex w-full md:flex-row justify-between h-16"><div class="flex items-center"><h4 class="text-sm"><a href="/">RG Epitaph</a></h4></div>
+      <div class="hidden md:flex items-center"><div class="ml-10 flex items-center space-x-4"><p class="rainbowText svelte-14xrgjb"><a href="/">Graveyard</a></p>
+          <p class="rainbowText svelte-14xrgjb"><a href="/mint">Souldraw</a></p>
+          <p class="rainbowText svelte-14xrgjb"><a href="/connect">Wallet</a></p></div></div></div></div>
+  
+  <div class="hidden md:hidden bg-gray-800"><div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+      <a href="/" class="block px-3 py-2 rounded-md text-sm text-white hover:bg-gray-700">Graveyard</a>
+      <a href="/mint" class="block px-3 py-2 rounded-md text-sm text-white hover:bg-gray-700">Souldraw</a>
+      <a href="/connect" class="block px-3 py-2 rounded-md text-sm text-white hover:bg-gray-700">Wallet</a>
+      
+      </div></div>
+</header>
+
+  
+  <div class="min-h-screen"><div class="h-[30vh] flex items-center justify-center p-20"><p class="text-white text-center">Please first <a href="/" class="">connect</a>
+        to the mainnet network to be able to use this page!
+      </p></div>
+</div>
+
+  
+  <footer class="flex flex-col items-center py-8 bg-black text-white footer svelte-1jrtwsf"><h3><a href="/">RG Epitaph</a></h3>
+  <div class="w-full flex items-center justify-end mt-2"><h5 class="author-text  svelte-1jrtwsf"><a href="https://etherscan.io/address/0x89261878977B5a01C4fD78Fc11566aBe31BBc14e">Reapers Gambit DAO</a></h5></div>
+</footer></div>
+
+
+			
+			<script>
+				{
+					__sveltekit_gqlmij = {
+						base: new URL(".", location).pathname.slice(0, -1),
+						env: {}
+					};
+
+					const element = document.currentScript.parentElement;
+
+					const data = [null,null];
+
+					Promise.all([
+						import("./_app/immutable/entry/start.bfb8d66f.js"),
+						import("./_app/immutable/entry/app.0dd5ffb3.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element, {
+							node_ids: [0, 5],
+							data,
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		</div>
+	</body>
+</html>

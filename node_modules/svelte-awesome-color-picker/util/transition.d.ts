@@ -1,0 +1,8 @@
+/**
+ * Ease in out sin base function
+ * @param x - param, between 1 and infinity
+ * @param min - starting return value, default .001
+ * @param max ending return value, default .01
+ * @returns a number between min and max
+ */
+export declare function easeInOutSin(x: number, min?: number, max?: number): number;
