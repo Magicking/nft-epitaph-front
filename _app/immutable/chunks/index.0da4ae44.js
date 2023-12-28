@@ -1,4 +1,4 @@
-import{aN as t,ak as n,aR as e,aS as i,aU as s,aO as f,aT as d,aQ as c,aP as l}from"./WalletSetup.ce7b3536.js";const a=`
+import{aN as t,ak as n,aR as e,aS as i,aU as s,aO as f,aT as d,aQ as c,aP as l}from"./WalletSetup.db8ca28b.js";const a=`
 @font-face {
   font-family: 'Inter';
   font-style:  normal;
