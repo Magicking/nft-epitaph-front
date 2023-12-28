@@ -17,6 +17,7 @@ const translations: Translations = {
     "Header.Graveyard": "Graveyard",
     "Header.Souldraw": "Souldraw",
     "Header.Wallet": "Wallet",
+	"Hero.Welcome":"Paint your Ethernal tag on the ReaperGambit Epitaph.",
   },
   "fr-FR": {
     "Header.Graveyard": "Cimetière",
