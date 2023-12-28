@@ -39,13 +39,13 @@
     canvasWidth = window.innerWidth >= 768 ? 896 : window.innerWidth;
   }
 
-  onMount(() => {
+  onMount(async () => {
     updateCanvasWidth();
     window.addEventListener("resize", updateCanvasWidth);
   });
 
   // Cleanup to remove the event listener when the component is destroyed
-  onDestroy(() => {
+  onDestroy(async () => {
     window.removeEventListener("resize", updateCanvasWidth);
   });
 
