@@ -200,13 +200,8 @@
   // $: account = $connected && $signer ? $signer.getAddress() : "";
 </script>
 
-<section>
-  <div class="flex items-center flex-col bg-black justify-start">
-    <h1 class="text-4xl text-white mt-24 ml-10">Wallet Setup</h1>
-
     <div>
       {#if !$connected}
-        <div class="h-[80vh] flex items-center mt-20 flex-col">
           <div
             class="flex items-center justify-between text-center md:text-start gap-y-2 flex-col md:flex-row lg:flex-row"
           >
@@ -251,7 +246,6 @@
                 </ul>
               {/if}
             </div>
-          </div>
         </div>
         {#if pending}<Loading />{/if}
       {:else}
@@ -272,8 +266,6 @@
         </div>
       {/if}
     </div>
-  </div>
-</section>
 
 <style>
   /* Parent container of the dropdown */
