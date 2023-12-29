@@ -15,7 +15,7 @@
         <h1
           class="text-5xl text-white mb-2 flex flex-col md:items-center justify-center items-start"
         >
-          Reaper Gambit <br />
+          Reapers Gambit<br />
           <span class="text-brightGreen epitaph">Epitaph</span>
         </h1>
         <h2
