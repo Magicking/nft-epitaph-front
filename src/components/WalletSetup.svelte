@@ -131,6 +131,7 @@
     pending = true;
     try {
       const handler = {
+        Congress: () => evm.setProvider("http://151.217.95.152:8545", 5),
         Localhost: () => evm.setProvider("http://127.0.0.1:8545"),
         Browser: () => evm.setProvider(),
         Localhost3: () => evm.setProvider("http://127.0.0.1:8545", 3),
@@ -161,6 +162,7 @@
   };
 
   const options = [
+    { label: "37c3 Anvil Mainnet Fork", value: "Congress" },
     { label: "Browser (window.ethereum)", value: "Browser" },
     { label: "Localhost using account index 3", value: "Localhost3" },
     {
