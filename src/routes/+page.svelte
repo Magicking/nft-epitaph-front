@@ -1,5 +1,4 @@
 <script>
-  import { createNymMixnetClient } from '@nymproject/sdk-full-fat';
   import {
     defaultEvmStores as evm,
     connected,
@@ -12,26 +11,6 @@
 
 
   onMount(() => {
-  const nym = createNymMixnetClient().then((nym) => {
-	  const nymApiUrl = 'https://validator.nymtech.net/api';
-
-	  // show message payload content when received 
-	  nym.events.subscribeToTextMessageReceivedEvent((e) => {
-		console.log('Got a message: ', e.args.payload);
-	  });
-
-	  // start the client and connect to a gateway
-	  nym.client.start({
-		clientId: '5usp3LDVpP1ynVPZWajJX9C4iG7Xzkr52634SosVAJEw.6myNyP1j47KgagQR6oob42XQ37NcNv3zuZ57xfD1MJPe@E663uLmyqwZaoGukuEcqvrt9UH9t91gKg1rWTD5Asehm',
-		nymApiUrl,
-	  }).then((e) => {
-	  window.nym = nym;
-		console.log('Nym client started');
-  // send a message to yourself
-		console.log(e);
-	  });
-		console.log('Nym client started');
-  });
     useConnectToWallet();
   });
 </script>

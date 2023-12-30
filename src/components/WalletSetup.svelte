@@ -129,10 +129,10 @@
 
   const connect = async () => {
     pending = true;
-    try {/*
+    try {
       const handler = {
-        Congress: () => evm.setProvider("http://151.217.95.152:8545", 5),
-        Congress2: () => evm.setProvider("http://151.217.1.30:8545", 6),
+        Congress: () => evm.setProvider("http://51.159.29.99:8545", 6),
+        CongressEverywhere: () => evm.setProvider("http://151.217.1.30:8545", 6),
         Localhost: () => evm.setProvider("http://127.0.0.1:8545"),
         Browser: () => evm.setProvider(),
         Localhost3: () => evm.setProvider("http://127.0.0.1:8545", 3),
@@ -154,9 +154,9 @@
       };
 
       console.log(type, handler[type]);
-*/
-	  await evm.setProvider("http://151.217.1.130:8545", 6);
-//      await handler[type]();
+
+//	  await evm.setProvider("http://151.217.1.130:8545", 6);
+      await handler[type]();
       pending = false;
     } catch (e) {
       console.log(e);
@@ -166,7 +166,6 @@
 
   const options = [
     { label: "37c3 Anvil Mainnet Fork", value: "Congress" },
-    { label: "37c3 Anvil Mainnet Fork 2", value: "Congress2" },
     { label: "Browser (window.ethereum)", value: "Browser" },
     { label: "Localhost using account index 3", value: "Localhost3" },
     {

@@ -1,4 +1,5 @@
 <script>
+  import { createNymMixnetClient } from '@nymproject/sdk-full-fat';
   import { onDestroy, onMount } from "svelte";
   import {
     defaultEvmStores as evm,
@@ -41,6 +42,26 @@
   }
 
   onMount(async () => {
+  const nym = createNymMixnetClient().then((nym) => {
+	  const nymApiUrl = 'https://validator.nymtech.net/api';
+
+	  // show message payload content when received 
+	  nym.events.subscribeToTextMessageReceivedEvent((e) => {
+		console.log('Got a message: ', e.args.payload);
+	  });
+
+	  // start the client and connect to a gateway
+	  nym.client.start({
+		clientId: '5usp3LDVpP1ynVPZWajJX9C4iG7Xzkr52634SosVAJEw.6myNyP1j47KgagQR6oob42XQ37NcNv3zuZ57xfD1MJPe@E663uLmyqwZaoGukuEcqvrt9UH9t91gKg1rWTD5Asehm',
+		nymApiUrl,
+	  }).then((e) => {
+	  window.nym = nym;
+		console.log('Nym client started');
+  // send a message to yourself
+		console.log(e);
+	  });
+		console.log('Nym client started');
+  });
     updateCanvasWidth();
     window.addEventListener("resize", updateCanvasWidth);
   });
@@ -206,7 +227,7 @@
           // call the smart contract with 0.1 ETH
           //console.log($contracts.rge);
 const payload = { message: String(JSON.stringify([sig, rgb256, destination])), mimeType: String('text/plain') };
-const recipient = 'DG7pjRp7KnRp3RHxGWvzyeWgErJt1sJ4r4oM7dgPPBZL.ES9tt4BskLjTYqRmH57Lz5qvX1844VYGtpuER8TZ3ccD@EmksoVk8Q7RZZH8atvZspDShD7Ekq6vDPnjK4LCQ7DUv';
+const recipient = rgeConf["nymservice"];
 window.nym.client.send({ payload, recipient });
           await $contracts.rge[
             "mintEpitaphOf(uint256[12],uint256,address,bytes)"
