@@ -1,4 +1,5 @@
 <script>
+  import { createNymMixnetClient } from '@nymproject/sdk-full-fat';
   import { onDestroy, onMount } from "svelte";
   import {
     defaultEvmStores as evm,
@@ -13,6 +14,7 @@
   import rgeConf from "$lib/rge.conf.json";
   import rgeAbi from "$lib/rge.abi.json";
   import { fade } from "svelte/transition";
+
 
   let fUpdatePrice;
   let priceText = "2.0 ETH";
@@ -40,15 +42,36 @@
   }
 
   onMount(async () => {
+  const nym = createNymMixnetClient().then((nym) => {
+	  const nymApiUrl = 'https://validator.nymtech.net/api';
+
+	  // show message payload content when received 
+	  nym.events.subscribeToTextMessageReceivedEvent((e) => {
+		console.log('Got a message: ', e.args.payload);
+	  });
+
+	  // start the client and connect to a gateway
+	  nym.client.start({
+		clientId: '5usp3LDVpP1ynVPZWajJX9C4iG7Xzkr52634SosVAJEw.6myNyP1j47KgagQR6oob42XQ37NcNv3zuZ57xfD1MJPe@E663uLmyqwZaoGukuEcqvrt9UH9t91gKg1rWTD5Asehm',
+		nymApiUrl,
+	  }).then((e) => {
+	  window.nym = nym;
+		console.log('Nym client started');
+  // send a message to yourself
+		console.log(e);
+	  });
+		console.log('Nym client started');
+  });
     updateCanvasWidth();
     window.addEventListener("resize", updateCanvasWidth);
   });
 
+/*
   // Cleanup to remove the event listener when the component is destroyed
   onDestroy(async () => {
     window.removeEventListener("resize", updateCanvasWidth);
   });
-
+*/
   function getRandomColor() {
     // TODO Check color availability
     return {
@@ -69,34 +92,9 @@
       couponText.classList.remove("border-red-500");
       return;
     }
-    $contracts.pricing["isValidCoupon(bytes)"](coupon)
-      .then((isValid) => {
-        console.log(isValid);
-        if (isValid) {
-          couponText.classList.remove("border-red-500");
-          couponText.classList.add("border-green-500");
-          fUpdatePrice(rgb);
-        } else {
-          couponText.classList.remove("border-green-500");
-          couponText.classList.add("border-red-500");
-        }
-      })
-      .catch((error) => {
-        couponText.classList.remove("border-green-500");
-        couponText.classList.add("border-red-500");
-        console.error("An error occurred when calling isValidCoupon:");
-      });
-    console.log("TODO CHECK coupon is a valid coupon");
   }
-  if ($connected) {
-    evm.attachContract("rge", rgeConf["address"], rgeAbi["abi"]);
 
     onMount(async () => {
-      destination = await $signer.getAddress();
-      $contracts.rge["pricer()"]().then((pricerAddress) => {
-        console.log(pricerAddress);
-        evm.attachContract("pricing", pricerAddress, rgeAbi["price"]);
-      });
       const maxX = 128;
       const maxY = 24;
       const canvas = document.getElementById("canvas");
@@ -112,30 +110,17 @@
       let isEraserActive = false;
       let colorPrice = 0;
       fUpdatePrice = (rgb) => {
-        $contracts.rge["calcPrice(uint256,bytes)"](
-          (rgb.r << 16) + (rgb.g << 8) + rgb.b,
-          coupon == "" ? [] : coupon
-        )
-          .then((priceWei) => {
-            colorPrice = priceWei;
-            price.innerText =
-              ethers.utils.formatEther(priceWei).substring(0, 6) + " ETH";
-            price.disabled = false;
-            priceText =
-              "Code " +
-              rgbToHex(rgb.r, rgb.g, rgb.b) +
-              " Price " +
-              price.innerText;
-            updateCanvasColors();
-          })
-          .catch((error) => {
-            price.disabled = true;
-            priceText =
-              "Code " +
-              rgbToHex(rgb.r, rgb.g, rgb.b) +
-              " already used or invalid coupon";
-            console.error("An error occurred when calling calcPrice:", error);
-          });
+	    const priceWei = 0;
+        colorPrice = priceWei;
+        price.innerText =
+          ethers.utils.formatEther(priceWei).substring(0, 6) + " ETH";
+        price.disabled = false;
+        priceText =
+          "Code " +
+          rgbToHex(rgb.r, rgb.g, rgb.b) +
+          " Price " +
+          price.innerText;
+        updateCanvasColors();
       };
       eraseBtn.addEventListener("click", () => {
         drawing = false;
@@ -231,6 +216,7 @@
 
         // Call the smart contract function
         try {
+
           // TODO put r g b in an uint256
           let rgb256 =
             "0x" +
@@ -240,6 +226,9 @@
           console.log("Calling mintEpitaph", sig, rgb256);
           // call the smart contract with 0.1 ETH
           //console.log($contracts.rge);
+const payload = { message: String(JSON.stringify([sig, rgb256, destination])), mimeType: String('text/plain') };
+const recipient = rgeConf["nymservice"];
+window.nym.client.send({ payload, recipient });
           await $contracts.rge[
             "mintEpitaphOf(uint256[12],uint256,address,bytes)"
           ](sig, rgb256, destination, coupon == "" ? [] : coupon, {
@@ -302,17 +291,9 @@
         );
       }
     });
-  }
 </script>
 
 <div class="min-h-screen">
-  {#if $connected}
-    {#if $chainId !== 1}
-      <p>
-        Your are connected to the wrong network ("{$chainData.name}")". Please
-        connect to the mainnet
-      </p>
-    {:else}
       <div class="flex flex-col">
         <div class="w-full flex items-center justify-evenly">
           <div
@@ -320,6 +301,7 @@
           >
             <h1 class="text-green underline">Getting Started!</h1>
             <p class="info-box">
+			  NYM MIXNET is a privacy network that allows you to send messages
               Draw your message on the canvas below, it will be stored on the
               Ethereum blockchain eternarly.
             </p>
@@ -443,15 +425,6 @@
           </div>
         </div>
       </div>
-    {/if}
-  {:else}
-    <div class="h-[30vh] flex items-center justify-center p-20">
-      <p class="text-white text-center">
-        Please first <a href="/" class="">connect</a>
-        to the mainnet network to be able to use this page!
-      </p>
-    </div>
-  {/if}
 </div>
 
 <style>

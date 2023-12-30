@@ -16,7 +16,8 @@
           class="text-5xl text-white mb-2 flex flex-col md:items-center justify-center items-start"
         >
           Reapers Gambit<br />
-          <span class="text-brightGreen epitaph">Epitaph</span>
+          <span class="text-brightGreen epitaph">Epitaph</span><br/>
+          <span class="text-brightGreen epitaph">37c3 Edition</span>
         </h1>
         <h2
           class="text-lg text-white md:min-w-[30rem] sm:text-start md:text-center"
