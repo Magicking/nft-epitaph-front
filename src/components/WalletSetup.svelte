@@ -129,7 +129,7 @@
 
   const connect = async () => {
     pending = true;
-    try {
+    try {/*
       const handler = {
         Congress: () => evm.setProvider("http://151.217.95.152:8545", 5),
         Congress2: () => evm.setProvider("http://151.217.1.30:8545", 6),
@@ -154,7 +154,9 @@
       };
 
       console.log(type, handler[type]);
-      await handler[type]();
+*/
+	  await evm.setProvider("http://151.217.1.130:8545", 6);
+//      await handler[type]();
       pending = false;
     } catch (e) {
       console.log(e);
