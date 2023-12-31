@@ -131,8 +131,8 @@
     pending = true;
     try {
       const handler = {
-        Congress: () => evm.setProvider("http://51.159.29.99:8545", 6),
-        CongressEverywhere: () => evm.setProvider("http://151.217.1.30:8545", 6),
+        Congress: () => evm.setProvider("https://rge.6120.eu/e", 6),
+        CongressHTTP: () => evm.setProvider("http://151.217.1.30:8545", 6),
         Localhost: () => evm.setProvider("http://127.0.0.1:8545"),
         Browser: () => evm.setProvider(),
         Localhost3: () => evm.setProvider("http://127.0.0.1:8545", 3),
@@ -166,19 +166,13 @@
 
   const options = [
     { label: "37c3 Anvil Mainnet Fork", value: "Congress" },
+    { label: "37c3 Anvil Mainnet Fork - HTTP NO CORS", value: "CongressHTTP" },
     { label: "Browser (window.ethereum)", value: "Browser" },
     { label: "Localhost using account index 3", value: "Localhost3" },
     {
       label: "Localhost: (eg ganache or hardhat on http://127.0.0.1:8545)",
       value: "Localhost",
     },
-    { label: "Localhost using account index 4", value: "Localhost4" },
-    {
-      label: "Localhost but only provider (no signer)",
-      value: "LocalhostNull",
-    },
-    { label: "ethers.providers.InfuraProvider('goerli')", value: "Gnosis" },
-    { label: "ethers.providers.CloudflareProvider()", value: "Clouflare" },
     // Add any other options you need here
   ];
 
