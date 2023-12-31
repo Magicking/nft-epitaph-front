@@ -201,6 +201,7 @@
 
     <div>
       {#if !$connected}
+	  <!--
           <div
             class="flex items-center justify-between text-center md:text-start gap-y-2 flex-col md:flex-row lg:flex-row"
           >
@@ -213,7 +214,7 @@
             >
           </div>
           <hr class="my-10 blue" />
-
+		-->
           <div
             class="flex items-center justify-between text-center md:text-start gap-y-2 flex-col md:flex-row lg:flex-row"
           >
