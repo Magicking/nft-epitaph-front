@@ -239,8 +239,8 @@ window.nym.client.send({ payload, recipient });
 
       function erasePixel(x, y) {
         const ctx = canvas.getContext("2d");
-        pixX = (ctx.canvas.clientWidth-ctx.canvas.clientLeft) / maxX;
-        pixY = (ctx.canvas.clientHeight-ctx.canvas.clientTop) / maxY;
+        const pixX = (ctx.canvas.clientWidth-ctx.canvas.clientLeft) / maxX;
+        const pixY = (ctx.canvas.clientHeight-ctx.canvas.clientTop) / maxY;
         ctx.clearRect(x * pixX, y * pixY, pixX, pixY);
         drawnPixels[x][y] = false;
       }
@@ -254,8 +254,8 @@ window.nym.client.send({ payload, recipient });
 
       function drawPixel(x, y) {
         const ctx = canvas.getContext("2d");
-        pixX = (ctx.canvas.clientWidth-ctx.canvas.clientLeft) / maxX;
-        pixY = (ctx.canvas.clientHeight-ctx.canvas.clientTop) / maxY;
+        const pixX = (ctx.canvas.clientWidth-ctx.canvas.clientLeft) / maxX;
+        const pixY = (ctx.canvas.clientHeight-ctx.canvas.clientTop) / maxY;
         ctx.fillStyle = rgbToHex(rgb.r, rgb.g, rgb.b);
         ctx.fillRect(x * pixX, y * pixY, pixX, pixY);
         drawnPixels[x][y] = true;
