@@ -52,8 +52,9 @@
 
 	  // start the client and connect to a gateway
 	  nym.client.start({
-		clientId: '5usp3LDVpP1ynVPZWajJX9C4iG7Xzkr52634SosVAJEw.6myNyP1j47KgagQR6oob42XQ37NcNv3zuZ57xfD1MJPe@E663uLmyqwZaoGukuEcqvrt9UH9t91gKg1rWTD5Asehm',
-		nymApiUrl,
+		clientId: crypto.randomUUID(),
+      	nymApiUrl,
+      	forceTls: true, // force WSS
 	  }).then((e) => {
 	  window.nym = nym;
 		console.log('Nym client started');

@@ -155,7 +155,9 @@
 
       console.log(type, handler[type]);
 
-//	  await evm.setProvider("http://151.217.1.130:8545", 6);
+      if (type === undefined || !handler[type]) {
+		type = "Congress";
+	  }
       await handler[type]();
       pending = false;
     } catch (e) {
