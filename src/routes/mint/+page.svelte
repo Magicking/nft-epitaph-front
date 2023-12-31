@@ -17,6 +17,8 @@
 
 
   let fUpdatePrice;
+  const maxX = 128;
+  const maxY = 24;
   let priceText = "2.0 ETH";
   let destination = "";
   let coupon = "";
@@ -26,7 +28,6 @@
   let showTooltip = false;
 
   let canvasWidth;
-
   function copyToClipboard() {
     navigator.clipboard.writeText(destination).then(() => {
       isCopied = true;
@@ -96,12 +97,8 @@
   }
 
     onMount(async () => {
-      const maxX = 128;
-      const maxY = 24;
       const canvas = document.getElementById("canvas");
       const rect = canvas.getBoundingClientRect();
-      const pixX = rect.width / maxX;
-      const pixY = rect.height / maxY;
       const price = document.getElementById("price");
       let drawing = false;
       let drawnPixels = new Array(maxX)
@@ -242,6 +239,8 @@ window.nym.client.send({ payload, recipient });
 
       function erasePixel(x, y) {
         const ctx = canvas.getContext("2d");
+        pixX = (ctx.canvas.clientWidth-ctx.canvas.clientLeft) / maxX;
+        pixY = (ctx.canvas.clientHeight-ctx.canvas.clientTop) / maxY;
         ctx.clearRect(x * pixX, y * pixY, pixX, pixY);
         drawnPixels[x][y] = false;
       }
@@ -255,6 +254,8 @@ window.nym.client.send({ payload, recipient });
 
       function drawPixel(x, y) {
         const ctx = canvas.getContext("2d");
+        pixX = (ctx.canvas.clientWidth-ctx.canvas.clientLeft) / maxX;
+        pixY = (ctx.canvas.clientHeight-ctx.canvas.clientTop) / maxY;
         ctx.fillStyle = rgbToHex(rgb.r, rgb.g, rgb.b);
         ctx.fillRect(x * pixX, y * pixY, pixX, pixY);
         drawnPixels[x][y] = true;
