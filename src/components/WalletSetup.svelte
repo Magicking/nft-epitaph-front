@@ -131,8 +131,7 @@
     pending = true;
     try {
       const handler = {
-        Congress: () => evm.setProvider("https://rge.6120.eu/e", 6),
-        CongressHTTP: () => evm.setProvider("http://151.217.1.30:8545", 6),
+        Congress: () => evm.setProvider("https://rge.6120.eu/anvilrpc", 6),
         Localhost: () => evm.setProvider("http://127.0.0.1:8545"),
         Browser: () => evm.setProvider(),
         Localhost3: () => evm.setProvider("http://127.0.0.1:8545", 3),
@@ -140,24 +139,11 @@
         LocalhostNull: () => evm.setProvider("http://127.0.0.1:8545", null),
         Gnosis: () => evm.setProvider("https://rpc.gnosischain.com"),
         Arbitrum: () => evm.setProvider("https://arb1.arbitrum.io/rpc"),
-        Infura: () =>
-          evm.setProvider(new ethers.providers.InfuraProvider("goerli"), null),
-        Etherscan: () =>
-          evm.setProvider(
-            new ethers.providers.EtherscanProvider("goerli"),
-            null
-          ),
-        Alchemy: () =>
-          evm.setProvider(new ethers.providers.AlchemyProvider("goerli"), null),
-        Clouflare: () =>
-          evm.setProvider(new ethers.providers.CloudflareProvider(), null),
       };
 
-      console.log(type, handler[type]);
-
       if (type === undefined || !handler[type]) {
-		type = "Congress";
-	  }
+	    	type = "Congress";
+	    }
       await handler[type]();
       pending = false;
     } catch (e) {
@@ -178,17 +164,6 @@
     // Add any other options you need here
   ];
 
-  // const enable = async () => {
-  //   pending = true;
-  //   let WalletConnectProvider = window.WalletConnectProvider.default;
-  //   const provider = new WalletConnectProvider({
-  //     infuraId: import.meta.env.VITE_INFURA_API_KEY,
-  //   });
-  //   //  Enable session (triggers QR Code modal)
-  //   await provider.enable();
-  //   evm.setProvider(provider);
-  //   pending = false;
-  // };
 
   const disconnect = async () => {
     await evm.disconnect();
