@@ -4,8 +4,8 @@
     connected,
     chainId,
   } from "svelte-ethers-store";
-  import Hero from "../components/Hero.svelte";
-  import Graveyard from "../components/Graveyard.svelte";
+  import Hero from "$lib/components/Hero.svelte";
+  import Graveyard from "$lib/components/Graveyard.svelte";
   import { onMount } from "svelte";
   import { useConnectToWallet } from "$lib/utils/useConnectToWallet";
 

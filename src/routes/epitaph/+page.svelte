@@ -6,9 +6,9 @@
   import { rgbToHex, getRgbString } from "$lib/utils/useColorCode.js";
   evm.attachContract("rge", rgeConf["address"], rgeAbi["abi"]);
 
-  import { GraveyardStore1 } from "../../lib/stores/graveyard.js";
+  import { GraveyardStore1 } from "$lib/stores/graveyard.js";
   import { onMount } from "svelte";
-  import Loading from "../../components/shared/Loading.svelte";
+  import Loading from "$lib/components/shared/Loading.svelte";
 
   function getIndex() {
     let i = $page.url.searchParams.get("i");

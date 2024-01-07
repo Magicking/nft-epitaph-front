@@ -1,5 +1,5 @@
 <script>
-  import { locale, translation } from "../lib/stores/i18n";
+  import { locale, translation } from "$lib/stores/i18n";
   import WalletSetup from "./WalletSetup.svelte";
 
 

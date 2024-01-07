@@ -1,7 +1,7 @@
 <script>
   import { page } from "$app/stores";
   import { onDestroy, onMount } from "svelte";
-  import { locale, translation } from "../lib/stores/i18n";
+  import { locale, translation } from "$lib/stores/i18n";
 
   $: t = $translation;
   $: lang = $locale;
@@ -58,7 +58,14 @@
           </p>
           <p
             class="rainbowText"
-            aria-current={$page.url.pathname.startsWith("/ethers/set")
+            aria-current={$page.url.pathname === "/about" ? "page" : undefined}
+          >
+            <a href="/nymmint">{t("Header.SouldrawNym")}
+            </a>
+          </p>
+          <p
+            class="rainbowText"
+            aria-current={$page.url.pathname.startsWith("/connect")
               ? "page"
               : undefined}
           >
@@ -83,6 +90,13 @@
         class="block px-3 py-2 rounded-md text-sm text-white hover:bg-gray-700"
       >
         {t("Header.Souldraw")}
+      </a>
+      <a
+        href="/nymmint"
+        class="block px-3 py-2 rounded-md text-sm text-white hover:bg-gray-700"
+      >
+        {t("Header.Souldraw")}
+        <img alt="nym mint" src="nym.svg" class="h-4 w-4" />
       </a>
       <a
         href="/connect"

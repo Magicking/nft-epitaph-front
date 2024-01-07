@@ -5,7 +5,7 @@
   import rgeConf from "$lib/rge.conf.json";
   import rgeAbi from "$lib/rge.abi.json";
   evm.attachContract("rge", rgeConf["address"], rgeAbi["abi"]);
-  import { GraveyardStore1 } from "../lib/stores/graveyard.js";
+  import { GraveyardStore1 } from "$lib/stores/graveyard.js";
 </script>
 
 <div class="min-h-screen">
