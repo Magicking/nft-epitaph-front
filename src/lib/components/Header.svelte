@@ -52,13 +52,13 @@
           </p>
           <p
             class="rainbowText"
-            aria-current={$page.url.pathname === "/about" ? "page" : undefined}
+            aria-current={$page.url.pathname === "/mint" ? "page" : undefined}
           >
             <a href="/mint">{t("Header.Souldraw")}</a>
           </p>
           <p
             class="rainbowText"
-            aria-current={$page.url.pathname === "/about" ? "page" : undefined}
+            aria-current={$page.url.pathname === "/nymmint" ? "page" : undefined}
           >
             <a href="/nymmint">{t("Header.SouldrawNym")}
             </a>
@@ -95,8 +95,7 @@
         href="/nymmint"
         class="block px-3 py-2 rounded-md text-sm text-white hover:bg-gray-700"
       >
-        {t("Header.Souldraw")}
-        <img alt="nym mint" src="nym.svg" class="h-4 w-4" />
+        {t("Header.SouldrawNym")}
       </a>
       <a
         href="/connect"
