@@ -7,19 +7,26 @@
 		<meta name="viewport" content="width=device-width" />
         <script type="text/javascript" src="https://unpkg.com/@walletconnect/web3-provider@1.7.0/dist/umd/index.min.js"></script>
 		
-		<link href="./_app/immutable/assets/0.cb08e8ad.css" rel="stylesheet">
-		<link href="./_app/immutable/assets/5.d4b8f2b9.css" rel="stylesheet">
-		<link rel="modulepreload" href="./_app/immutable/entry/start.713b54fe.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/index.3c9d7486.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/singletons.35fd6e6e.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/index.e72b2f5f.js">
-		<link rel="modulepreload" href="./_app/immutable/entry/app.f9695d35.js">
+		<link href="./_app/immutable/assets/0.5fb08c4e.css" rel="stylesheet">
+		<link href="./_app/immutable/assets/useConnectToWallet.4b4e794c.css" rel="stylesheet">
+		<link href="./_app/immutable/assets/WalletSetup.38a21e69.css" rel="stylesheet">
+		<link href="./_app/immutable/assets/Loading.94bb27be.css" rel="stylesheet">
+		<link href="./_app/immutable/assets/Mint.d4b8f2b9.css" rel="stylesheet">
+		<link rel="modulepreload" href="./_app/immutable/entry/start.f113a247.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/index.dcfa3c83.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/singletons.8d828230.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/index.b9c809cf.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/app.783943f8.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/preload-helper.a4192956.js">
-		<link rel="modulepreload" href="./_app/immutable/nodes/0.96da7200.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/stores.066a2693.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/i18n.b5490a27.js">
-		<link rel="modulepreload" href="./_app/immutable/nodes/5.a327e601.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/rge.conf.ed63ec68.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/0.4f3c4521.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/stores.08448876.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/i18n.5d4966f5.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/5.fdeb8f78.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/rge.conf.d12eb27b.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/useConnectToWallet.84832ed1.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/WalletSetup.0a69b6ad.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/Loading.1c5a2d7e.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/Mint.23909c20.js">
 	</head>
 	<body data-sveltekit-preload-data="hover">
 		<div style="display: contents">
@@ -28,81 +35,34 @@
 <div class="min-h-screen bg-stone-900">
   <header class="bg-gray-800 text-white"><div class="px-10"><div class="flex w-full md:flex-row justify-between h-16"><div class="flex items-center"><h4 class="text-sm"><a href="/">RG Epitaph</a></h4></div>
       <div class="hidden md:flex items-center"><div class="ml-10 flex items-center space-x-4"><p class="rainbowText svelte-14xrgjb"><a href="/">Graveyard</a></p>
-          <p class="rainbowText svelte-14xrgjb"><a href="/mint">Souldraw</a></p>
+          <p class="rainbowText svelte-14xrgjb" aria-current="page"><a href="/mint">Souldraw (eth)</a></p>
+          <p class="rainbowText svelte-14xrgjb"><a href="/nymmint">Souldraw (nym)</a></p>
           <p class="rainbowText svelte-14xrgjb"><a href="/connect">Wallet</a></p></div></div></div></div>
   
   <div class="hidden md:hidden bg-gray-800"><div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
       <a href="/" class="block px-3 py-2 rounded-md text-sm text-white hover:bg-gray-700">Graveyard</a>
-      <a href="/mint" class="block px-3 py-2 rounded-md text-sm text-white hover:bg-gray-700">Souldraw</a>
+      <a href="/mint" class="block px-3 py-2 rounded-md text-sm text-white hover:bg-gray-700">Souldraw (eth)</a>
+      <a href="/nymmint" class="block px-3 py-2 rounded-md text-sm text-white hover:bg-gray-700">Souldraw (nym)</a>
       <a href="/connect" class="block px-3 py-2 rounded-md text-sm text-white hover:bg-gray-700">Wallet</a>
       
       </div></div>
 </header>
 
   
-  <div class="min-h-screen"><div class="flex flex-col"><div class="w-full flex items-center justify-evenly"><div class="flex flex-col text-white mt-5 p-6 gap-y-4 w-[50rem] my-0 md:my-20"><h1 class="text-green underline">Getting Started!</h1>
-            <p class="info-box svelte-gy3wde">NYM MIXNET is a privacy network that allows you to send messages
-              Draw your message on the canvas below, it will be stored on the
-              Ethereum blockchain eternarly.
-            </p>
+  <div><section class="h-[90vh] bg-black"><div class="flex items-center p-5 h-full w-full justify-between"><div class="flex-1 flex items-center justify-center"><div class="md:min-w-[34rem]"><h1 class="text-5xl text-white mb-2 flex flex-col md:items-center justify-center items-start">Reapers Gambit<br>
+          <span class="text-brightGreen epitaph svelte-i62unr">Epitaph</span><br>
+          <span class="text-brightGreen epitaph svelte-i62unr">37c3 Edition</span></h1>
+        <h2 class="text-lg text-white md:min-w-[30rem] sm:text-start md:text-center">Paint your Ethernal tag on the ReaperGambit Epitaph.<br></h2>
+        <div class="flex mt-10 w-56 flex items-center justify-center w-full"><div>
+          <div class="flex items-center justify-between text-center md:text-start gap-y-2 flex-col md:flex-row lg:flex-row"><p class="py-4 wallet_text svelte-17sea5a">Or choose the &quot;setProvider&quot; method:</p>
 
-            <p class="info-box svelte-gy3wde">Press down lightly your finger where you want to start drawing on
-              the canvas. And move your finger in the direction you wish to
-              draw.
-            </p>
+            <button class="block px-4 py-2 text-base font-medium text-white blue rounded-md neon-btn" >Connect with</button></div>
+          <div class="mt-4"><div class="parent-container svelte-17sea5a"><button class="bg-white text truncate-select svelte-17sea5a">Select a provider</button>
 
-            <p class="info-box svelte-gy3wde">Use the erase button to gently erase pixel.</p></div>
-
-          
-          <div class="flex flex-col items-stretch md:items-center relative p-6">
-            <div><label for="address" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">In memory of:
-              </label>
-              <input type="text" id="address" class="bg-gray-50 blue border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="0xDE2..." required value=""></div>
-
-            </div></div>
-
-        <br>
-        <div class="p-10"><h1 class="text-white">Your Canvas</h1>
-          <div class="flex items-center justify-center flex-col md:flex-row-reverse"><div class="flex justify-center text-white text-sm">
-
-
-
-<span class="color-picker svelte-7ntk55">
-<label class="svelte-2ybi8r"><div class="container svelte-2ybi8r"><input type="color" value="#630570" aria-haspopup="dialog" class="svelte-2ybi8r">
-		<div class="alpha svelte-2ybi8r"></div>
-		<div class="color svelte-2ybi8r" style="background: #630570"></div></div>
-	2.0 ETH
-</label>
-
-	<div class="wrapper svelte-6lhts  isPopup" role="dialog" aria-label="color picker">
-
-<div class="picker-wrapper svelte-1hhmcjg">
-	<div class="picker svelte-uiwgvv" tabindex="0" style="--color-bg: #e100ff;" aria-label="saturation and brightness picker (arrow keyboard navigation)" aria-valuemin="0" aria-valuemax="100" aria-valuetext="saturation 100%, brightness 0%"><div class="picker-indicator svelte-1nw247x" style="left: calc(100 * (var(--picker-width, 200px) - 14px) / 100 + 2px); top: calc(0 * (var(--picker-height, 200px) - 14px) / 100 + 2px); box-shadow: 0 0 4px white;"></div></div>
-</div>
-		
-
-<div class="slider-wrapper svelte-1udewng">
-	<div class="slider svelte-14nweqy" tabindex="0" aria-label="hue picker (arrow keyboard navigation)" aria-valuemin="0" aria-valuemax="360" aria-valuenow="293"><div class="slider-indicator svelte-13znx8u" style="top: calc(0 * (var(--picker-height, 200px) - 14px) / 100 + 2px)"></div></div>
-</div>
-		
-		<div class="text-input svelte-11z4jba"><div class="input-container svelte-11z4jba"><input value="#630570" style="flex: 3" class="svelte-11z4jba">
-			</div>
-
-	<button aria-label="change inputs to RGB" class="svelte-11z4jba">HEX</button>
-</div>
-		
-</div>
-</span></div>
-            <div class=""><canvas id="canvas" class="block w-full border-2 my-4 justify-center items-center mx-auto" height="168px"></canvas></div></div></div>
-        <div class="p-10 bg-black bottom-bar svelte-gy3wde"><br>
-          <div class="flex justify-between flex-col md:flex-row gap-y-6 md:gap-y-0"><div><label for="coupon" class="block w-56 mb-2 text-sm font-medium text-gray-100 dark:text-white">Coupon</label>
-              <input type="text" id="coupon" class="bg-gray-50 w-1/6 border text-gray-100 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="0xDE2..." value=""></div>
-
-            <div><div class="text-white">You can pay:
-                <button id="price" class="w-full mt-4 neon-btn blue px-2 py-1 text-sm text-white rounded-md shadow-md focus:outline-none">Submit
-                </button></div>
-              <button id="eraseBtn" class="block w-full mt-4 px-4 py-2 text-base font-medium text-white bg-red-500 rounded-md shadow-md hover:bg-red-900 focus:outline-none focus:ring-red-500 focus:ring-offset-2">Erase</button></div></div></div></div>
-</div>
+              </div></div>
+        
+    </div></div></div></div></div>
+</section></div>
 
   
   <footer class="flex flex-col items-center py-8 bg-black text-white footer svelte-1jrtwsf"><h3><a href="/">RG Epitaph</a></h3>
@@ -113,7 +73,7 @@
 			
 			<script>
 				{
-					__sveltekit_1w1oi9k = {
+					__sveltekit_150bdn4 = {
 						base: new URL(".", location).pathname.slice(0, -1),
 						env: {}
 					};
@@ -123,8 +83,8 @@
 					const data = [null,null];
 
 					Promise.all([
-						import("./_app/immutable/entry/start.713b54fe.js"),
-						import("./_app/immutable/entry/app.f9695d35.js")
+						import("./_app/immutable/entry/start.f113a247.js"),
+						import("./_app/immutable/entry/app.783943f8.js")
 					]).then(([kit, app]) => {
 						kit.start(app, element, {
 							node_ids: [0, 5],

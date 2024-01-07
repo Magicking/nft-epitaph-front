@@ -7,24 +7,25 @@
 		<meta name="viewport" content="width=device-width" />
         <script type="text/javascript" src="https://unpkg.com/@walletconnect/web3-provider@1.7.0/dist/umd/index.min.js"></script>
 		
-		<link href="./_app/immutable/assets/0.cb08e8ad.css" rel="stylesheet">
-		<link href="./_app/immutable/assets/2.4b4e794c.css" rel="stylesheet">
+		<link href="./_app/immutable/assets/0.5fb08c4e.css" rel="stylesheet">
+		<link href="./_app/immutable/assets/useConnectToWallet.4b4e794c.css" rel="stylesheet">
 		<link href="./_app/immutable/assets/WalletSetup.38a21e69.css" rel="stylesheet">
 		<link href="./_app/immutable/assets/Loading.94bb27be.css" rel="stylesheet">
-		<link rel="modulepreload" href="./_app/immutable/entry/start.713b54fe.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/index.3c9d7486.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/singletons.35fd6e6e.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/index.e72b2f5f.js">
-		<link rel="modulepreload" href="./_app/immutable/entry/app.f9695d35.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/start.f113a247.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/index.dcfa3c83.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/singletons.8d828230.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/index.b9c809cf.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/app.783943f8.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/preload-helper.a4192956.js">
-		<link rel="modulepreload" href="./_app/immutable/nodes/0.96da7200.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/stores.066a2693.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/i18n.b5490a27.js">
-		<link rel="modulepreload" href="./_app/immutable/nodes/2.488be724.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/rge.conf.ed63ec68.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/WalletSetup.e3a88dbf.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/Loading.44c69c40.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/graveyard.8162cbcd.js"><title>RG Epitaph</title><!-- HEAD_svelte-1t31otj_START --><meta name="description" content="RG Epitaph"><!-- HEAD_svelte-1t31otj_END -->
+		<link rel="modulepreload" href="./_app/immutable/nodes/0.4f3c4521.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/stores.08448876.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/i18n.5d4966f5.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/2.5c8359f5.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/rge.conf.d12eb27b.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/useConnectToWallet.84832ed1.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/WalletSetup.0a69b6ad.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/Loading.1c5a2d7e.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/graveyard.ba18f7ba.js"><title>RG Epitaph</title><!-- HEAD_svelte-1t31otj_START --><meta name="description" content="RG Epitaph"><!-- HEAD_svelte-1t31otj_END -->
 	</head>
 	<body data-sveltekit-preload-data="hover">
 		<div style="display: contents">
@@ -33,12 +34,14 @@
 <div class="min-h-screen bg-stone-900">
   <header class="bg-gray-800 text-white"><div class="px-10"><div class="flex w-full md:flex-row justify-between h-16"><div class="flex items-center"><h4 class="text-sm"><a href="/">RG Epitaph</a></h4></div>
       <div class="hidden md:flex items-center"><div class="ml-10 flex items-center space-x-4"><p class="rainbowText svelte-14xrgjb" aria-current="page"><a href="/">Graveyard</a></p>
-          <p class="rainbowText svelte-14xrgjb"><a href="/mint">Souldraw</a></p>
+          <p class="rainbowText svelte-14xrgjb"><a href="/mint">Souldraw (eth)</a></p>
+          <p class="rainbowText svelte-14xrgjb"><a href="/nymmint">Souldraw (nym)</a></p>
           <p class="rainbowText svelte-14xrgjb"><a href="/connect">Wallet</a></p></div></div></div></div>
   
   <div class="hidden md:hidden bg-gray-800"><div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
       <a href="/" class="block px-3 py-2 rounded-md text-sm text-white hover:bg-gray-700">Graveyard</a>
-      <a href="/mint" class="block px-3 py-2 rounded-md text-sm text-white hover:bg-gray-700">Souldraw</a>
+      <a href="/mint" class="block px-3 py-2 rounded-md text-sm text-white hover:bg-gray-700">Souldraw (eth)</a>
+      <a href="/nymmint" class="block px-3 py-2 rounded-md text-sm text-white hover:bg-gray-700">Souldraw (nym)</a>
       <a href="/connect" class="block px-3 py-2 rounded-md text-sm text-white hover:bg-gray-700">Wallet</a>
       
       </div></div>
@@ -71,7 +74,7 @@
 			
 			<script>
 				{
-					__sveltekit_1w1oi9k = {
+					__sveltekit_150bdn4 = {
 						base: new URL(".", location).pathname.slice(0, -1),
 						env: {}
 					};
@@ -81,8 +84,8 @@
 					const data = [null,null];
 
 					Promise.all([
-						import("./_app/immutable/entry/start.713b54fe.js"),
-						import("./_app/immutable/entry/app.f9695d35.js")
+						import("./_app/immutable/entry/start.f113a247.js"),
+						import("./_app/immutable/entry/app.783943f8.js")
 					]).then(([kit, app]) => {
 						kit.start(app, element, {
 							node_ids: [0, 2],
