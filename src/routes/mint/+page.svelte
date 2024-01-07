@@ -23,6 +23,7 @@
   let coupon = "";
 
   let isCopied = false;
+  let w;
 
   let showTooltip = false;
 
@@ -42,39 +43,39 @@
   }
 
   onMount(async () => {
-  const nym = createNymMixnetClient().then((nym) => {
-	  // show message payload content when received 
-	  nym.events.subscribeToTextMessageReceivedEvent((e) => {
-		console.log('Got a message: ', e.args.payload);
-	  });
-
-	  // start the client and connect to a gateway
-	  let clientId = 'insecure';
-	  if (window.isSecureContext) {
-	   clientId = crypto.randomUUID();
-	  }
-	  nym.client.start({
-		clientId: clientId,
-      	preferredGateway: 'E3mvZTHQCdBvhfr178Swx9g4QG3kkRUun7YnToLMcMbM', //gateway1.nymtech.net
-      	forceTls: true, // force WSS
-	  }).then((e) => {
-	  window.nym = nym;
-		console.log('Nym client started');
-  // send a message to yourself
-		console.log(e);
-	  });
-		console.log('Nym client started');
-  });
+    w = window;
     updateCanvasWidth();
+    createNymMixnetClient().then((nym) => {
+      // show message payload content when received 
+      nym.events.subscribeToTextMessageReceivedEvent((e) => {
+        console.log('Got a message: ', e.args.payload);
+	    });
+
+      // start the client and connect to a gateway
+      let clientId = 'insecure';
+      if (window.isSecureContext) {
+        clientId = crypto.randomUUID();
+      }
+      nym.client.start({
+        clientId: clientId,
+          preferredGateway: 'E3mvZTHQCdBvhfr178Swx9g4QG3kkRUun7YnToLMcMbM', //gateway1.nymtech.net
+          forceTls: true, // force WSS
+      }).then((e) => {
+        window.nym = nym;
+        console.log('Nym client started');
+      // send a message to yourself
+        console.log(e);
+      });
+      console.log('Nym client started');
+    });
     window.addEventListener("resize", updateCanvasWidth);
   });
 
-/*
   // Cleanup to remove the event listener when the component is destroyed
   onDestroy(async () => {
-    window.removeEventListener("resize", updateCanvasWidth);
+    if (w)
+      w.removeEventListener("resize", updateCanvasWidth);
   });
-*/
   function getRandomColor() {
     // TODO Check color availability
     return {
@@ -238,35 +239,31 @@ window.nym.client.send({ payload, recipient });
         }
       });
 
-      function erasePixel(x, y) {
-        const ctx = canvas.getContext("2d");
-        const pixX = (ctx.canvas.clientWidth-ctx.canvas.clientLeft) / maxX;
-        const pixY = (ctx.canvas.clientHeight-ctx.canvas.clientTop) / maxY;
-        ctx.clearRect(x * pixX, y * pixY, pixX, pixY);
-        drawnPixels[x][y] = false;
-      }
-
       function erasePixelEvent(e) {
         const rect = canvas.getBoundingClientRect();
         const x = Math.floor(((e.clientX - rect.left) / rect.width) * maxX);
         const y = Math.floor(((e.clientY - rect.top) / rect.height) * maxY);
-        erasePixel(x, y);
-      }
-
-      function drawPixel(x, y) {
-        const ctx = canvas.getContext("2d");
-        const pixX = (ctx.canvas.clientWidth-ctx.canvas.clientLeft) / maxX;
-        const pixY = (ctx.canvas.clientHeight-ctx.canvas.clientTop) / maxY;
-        ctx.fillStyle = rgbToHex(rgb.r, rgb.g, rgb.b);
-        ctx.fillRect(x * pixX, y * pixY, pixX, pixY);
-        drawnPixels[x][y] = true;
+        setPixel(x, y, false);
       }
 
       function drawPixelEvent(e) {
         const rect = canvas.getBoundingClientRect();
         const x = Math.floor(((e.clientX - rect.left) / rect.width) * maxX);
         const y = Math.floor(((e.clientY - rect.top) / rect.height) * maxY);
-        drawPixel(x, y);
+        setPixel(x, y, true);
+      }
+
+      function setPixel(x, y, set) {
+        const ctx = canvas.getContext("2d");
+        const pixX = (ctx.canvas.width) / maxX;
+        const pixY = (ctx.canvas.height) / maxY;
+        if (set) {
+          ctx.fillStyle = rgbToHex(rgb.r, rgb.g, rgb.b);
+          ctx.fillRect(x * pixX, y * pixY, pixX, pixY);
+        } else {
+          ctx.clearRect(x * pixX, y * pixY, pixX, pixY);
+        }
+        drawnPixels[x][y] = set;
       }
 
       function updateCanvasColors() {
@@ -275,17 +272,10 @@ window.nym.client.send({ payload, recipient });
         for (let x = 0; x < maxX; x++) {
           for (let y = 0; y < maxY; y++) {
             if (drawnPixels[x][y]) {
-              drawPixel(x, y);
+              setPixel(x, y, true);
             }
           }
         }
-      }
-
-      function hexToRgb(hex) {
-        const r = parseInt(hex.slice(1, 3), 16);
-        const g = parseInt(hex.slice(3, 5), 16);
-        const b = parseInt(hex.slice(5, 7), 16);
-        return { r, g, b };
       }
 
       function rgbToHex(r, g, b) {
