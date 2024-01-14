@@ -64,12 +64,32 @@
     if (coupon == "") {
       couponText.classList.remove("border-green-500");
       couponText.classList.remove("border-red-500");
-      return;
     }
+    fUpdatePrice(rgb);
   }
 
   onMount(async () => {
     destination = "0x89261878977b5a01c4fd78fc11566abe31bbc14e"; // RG DAO
+	try {
+     $signer.getAddress().then((address) => {
+	  // Fetch coupon at /{address}.json
+	  fetch("/public//" + address.toLowerCase() + ".json").then((response) => {
+	    if (response.status == 404) {
+	      // No coupon found
+	      return;
+	    }
+	    return response.json();
+	  }).then((data) => {
+	 	// Set coupon input to fetched coupon
+		data = data == null ? "" : data;
+	    document.getElementById("coupon").value = data;
+		coupon = data;
+		validateCoupon(null);
+	})
+	});
+	} catch (error) {
+	  validateCoupon(null);
+	}
     const canvas = document.getElementById("canvas");
     const saveBtn = document.getElementById("saveBtn");
     let drawing = false;
@@ -172,8 +192,6 @@
         }
       }
     });
-
-    fUpdatePrice(rgb);
 
     saveBtn.addEventListener("click", async () => {
       // Convert the canvas to an array of uint256s
