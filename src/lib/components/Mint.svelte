@@ -86,7 +86,7 @@
     let colorPrice = 0;
     fUpdatePrice = (rgb) => {
       if (!nymMode) {
-        $contracts.rge["calcPrice(uint256,bytes)"](
+        $contracts.rge.callStatic["calcPrice(uint256,bytes)"](
           (rgb.r << 16) + (rgb.g << 8) + rgb.b,
           coupon == "" ? [] : coupon
         )
