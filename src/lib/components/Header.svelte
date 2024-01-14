@@ -56,6 +56,7 @@
           >
             <a href="/mint">{t("Header.Souldraw")}</a>
           </p>
+      <!--
           <p
             class="rainbowText"
             aria-current={$page.url.pathname === "/nymmint" ? "page" : undefined}
@@ -63,6 +64,7 @@
             <a href="/nymmint">{t("Header.SouldrawNym")}
             </a>
           </p>
+		  -->
           <p
             class="rainbowText"
             aria-current={$page.url.pathname.startsWith("/connect")
@@ -91,12 +93,14 @@
       >
         {t("Header.Souldraw")}
       </a>
+      <!--
       <a
         href="/nymmint"
         class="block px-3 py-2 rounded-md text-sm text-white hover:bg-gray-700"
       >
         {t("Header.SouldrawNym")}
       </a>
+	  -->
       <a
         href="/connect"
         class="block px-3 py-2 rounded-md text-sm text-white hover:bg-gray-700"

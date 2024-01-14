@@ -17,7 +17,7 @@
         >
           Reapers Gambit<br />
           <span class="text-brightGreen epitaph">Epitaph</span><br/>
-          <span class="text-brightGreen epitaph">37c3 Edition</span>
+          <span class="text-brightGreen epitaph">Ethernal NFT</span>
         </h1>
         <h2
           class="text-lg text-white md:min-w-[30rem] sm:text-start md:text-center"
