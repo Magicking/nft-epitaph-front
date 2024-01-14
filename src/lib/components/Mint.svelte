@@ -69,12 +69,7 @@
   }
 
   onMount(async () => {
-    if (!nymMode) {
-      destination = await $signer.getAddress();
-    } else {
-      // TODO: set this to 0x89261878977B5a01C4fD78Fc11566aBe31BBc14e address when smart-contract is fixed
-      destination = "0x976ea74026e726554db657fa54763abd0c3a0aa9"; // RG DAO
-    }
+    destination = "0x89261878977b5a01c4fd78fc11566abe31bbc14e"; // RG DAO
     const canvas = document.getElementById("canvas");
     const saveBtn = document.getElementById("saveBtn");
     let drawing = false;
