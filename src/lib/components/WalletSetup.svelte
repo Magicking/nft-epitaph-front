@@ -50,7 +50,7 @@
         id: "0x1",
         token: "ETH",
         label: "Ethereum Mainnet",
-        rpcUrl: "https://eth.llamarpc.com",
+        rpcUrl: "https://eth-mainnet.g.alchemy.com/v2/_ufgCCm8U0HQ70u1xxcJwxXBC9fN8ISc",
       },
     ],
     appMetadata: {
