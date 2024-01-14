@@ -106,6 +106,7 @@
     const wallets = await onboard.connectWallet();
   };
   export const disconnectOnBoard = async () => {
+    window.sessionStorage.removeItem("ConnectedWallets")
     const connectedWallet = onboard.state.get().wallets[0];
     await onboard.disconnectWallet({ label: connectedWallet.label });
     await evm.disconnect();
@@ -178,7 +179,6 @@
 
     <div>
       {#if !$connected}
-	  <!--
           <div
             class="flex items-center justify-between text-center md:text-start gap-y-2 flex-col md:flex-row lg:flex-row"
           >
@@ -191,7 +191,7 @@
             >
           </div>
           <hr class="my-10 blue" />
-		-->
+	  <!--
           <div
             class="flex items-center justify-between text-center md:text-start gap-y-2 flex-col md:flex-row lg:flex-row"
           >
@@ -203,6 +203,8 @@
               on:click={connect}>Connect with</button
             >
           </div>
+		-->
+	  <!--
           <div class="mt-4">
             <div class="parent-container">
               <button
@@ -215,7 +217,7 @@
               {#if isOpen}
                 <ul class="options">
                   {#each options as option}
-                    <!-- svelte-ignore a11y-click-events-have-key-events -->
+                    [!-- svelte-ignore a11y-click-events-have-key-events --]
                     <li class="option" on:click={() => selectOption(option)}>
                       {option.label}
                     </li>
@@ -224,6 +226,7 @@
               {/if}
             </div>
         </div>
+		-->
         {#if pending}<Loading />{/if}
       {:else}
         <div class="flex flex-col h-screen text-white mt-10 w-[70vw] gap-y-2">
@@ -234,9 +237,11 @@
           </div>
           <p>On the network {$chainData.name} (chainId: {$chainId})</p>
 
+<!--
           <button class="button neon-btn red" on:click={disconnect}>
             Disconnect
           </button>
+-->
           <button class="button neon-btn yellow" on:click={disconnectOnBoard}>
             Disconnect OnBoard</button
           >

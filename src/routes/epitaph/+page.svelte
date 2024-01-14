@@ -24,6 +24,7 @@
     // Check if the contract is available and if the data is loaded
     if ($contracts.rge && $GraveyardStore1.length > 0) {
       isLoading = false;
+	  console.log($GraveyardStore1[getIndex()]);
     }
   });
 </script>
@@ -71,10 +72,10 @@
           </span>
         </p>
         <p>
-          Previous Owner: <span
+          Color Owner: <span
             class="technoText"
             style="word-wrap: break-word;"
-            >{$GraveyardStore1[getIndex()].attributes[0].memoryOf}</span
+            >{$GraveyardStore1[getIndex()].attributes[5].colorOwner}</span
           >
         </p>
         <p>

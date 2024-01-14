@@ -28,7 +28,7 @@ const translations: Translations = {
     "Mint.Banner": "Draw your message on the canvas below, it will be stored on the Ethereum blockchain ethernarly. Use the erase button bellow to erase pixel.",
     "Mint.BannerNym": "Use the NYM Mixnet to anonymously draw your message on the canvas below, it will be stored on the Ethereum blockchain ethernarly. Use the erase button bellow to erase pixel.",
     "Mint.Save": "Save",
-	  "Hero.Welcome":"Paint your Ethernal tag on the ReaperGambit Epitaph.",
+	  "Hero.Welcome":"Paint your graffiti on-chain.",
   },
   "fr-FR": {
     "Header.Graveyard": "Cimetière",

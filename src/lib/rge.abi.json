@@ -310,7 +310,7 @@
       {
         "indexed": true,
         "internalType": "address",
-        "name": "previousOwner",
+        "name": "colorOwner",
         "type": "address"
       },
       {
@@ -411,7 +411,7 @@
           },
           {
             "internalType": "address",
-            "name": "previousOwner",
+            "name": "colorOwner",
             "type": "address"
           },
           {
@@ -495,7 +495,7 @@
           },
           {
             "internalType": "address",
-            "name": "previousOwner",
+            "name": "colorOwner",
             "type": "address"
           },
           {
@@ -654,7 +654,7 @@
           },
           {
             "internalType": "address",
-            "name": "previousOwner",
+            "name": "colorOwner",
             "type": "address"
           },
           {
