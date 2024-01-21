@@ -250,50 +250,11 @@
     </div>
 
 <style>
-  /* Parent container of the dropdown */
-  .parent-container {
-    position: relative;
-  }
-
-  /* Styles for the dropdown */
-  .options {
-    position: absolute;
-    background-color: white;
-    overflow-y: auto; /* For vertical scrolling */
-    max-height: 10rem;
-    max-width: 100%; /* Adjust this as needed */
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2); /* Optional: for better visibility */
-    z-index: 1000; /* To ensure dropdown appears above other content */
-  }
-
-  .truncate-select {
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .wallet_text {
-    color: #00ff00;
-  }
-
-  .options {
-    position: absolute;
-    left: -20%;
-    background-color: white;
-    overflow-y: scroll;
-    overflow-x: scroll;
-    max-height: 10rem;
-    max-width: 30rem;
-  }
-
-  .option {
-    border: 1px solid gray;
-    font-size: 10px;
-    padding: 0.3rem;
-    cursor: pointer;
-    max-width: 24rem;
-  }
-
   .signeraddress {
     word-wrap: break-word;
     color: #4cc9f0;
+  }
+  .wallet_text {
+    color: #00ff00;
   }
 </style>
