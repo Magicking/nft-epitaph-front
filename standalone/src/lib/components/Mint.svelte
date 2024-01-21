@@ -311,10 +311,8 @@
         {t("Mint.Banner" + (nymMode ? "Nym" : ""))}
       </p>
       </div>
-
-      <!-- svelte-ignore a11y-mouse-events-have-key-events -->
       <div class="flex flex-col items-stretch md:items-center relative p-6">
-        <!-- svelte-ignore a11y-click-events-have-key-events -->
+      <!-- svelte-ignore a11y-mouse-events-have-key-events -->
         <div
           on:mouseover={() => (showTooltip = true)}
           on:mouseleave={() => (showTooltip = false)}
