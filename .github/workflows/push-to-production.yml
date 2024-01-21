@@ -36,23 +36,17 @@ jobs:
         run: npm run build
 
     # Prepare all changed files.
-      - name: GIT Prepare branch artifacts
+      - name: GIT Prepare and push branch artifacts
         # Only run on main branch push (e.g. after pull request merge).
         if: github.event_name == 'push'
         run: |
           cd ${{ env.working-directory }}
           mv build /tmp
           cd ${{ github.workspace }}
-          rm -rf * .svelte-kit
+          rm -rfv * .svelte-kit
+          mv .git /tmp/build/
+          cd /tmp/build
           git checkout -f -B build
-          cp -av /tmp/build/* .
-
-    # Commit and push all changed files.
-      - name: GIT Prepare branch artifacts
-        # Only run on main branch push (e.g. after pull request merge).
-        if: github.event_name == 'push'
-        run: |
-          cd ${{ github.workspace }}
           git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
           git config --global user.email "username@users.noreply.github.com"
           git add .
