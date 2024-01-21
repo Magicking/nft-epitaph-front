@@ -35,8 +35,8 @@ jobs:
         working-directory: ${{ env.working-directory }}
         run: npm run build
 
-    # Commit and push all changed files.
-      - name: GIT Commit Build Artifacts (coverage, dist, devdist, docs)
+    # Prepare all changed files.
+      - name: GIT Prepare branch artifacts
         # Only run on main branch push (e.g. after pull request merge).
         if: github.event_name == 'push'
         run: |
@@ -46,6 +46,13 @@ jobs:
           rm -rf * .svelte-kit
           git checkout -f -B build
           cp -av /tmp/build/* .
+
+    # Commit and push all changed files.
+      - name: GIT Prepare branch artifacts
+        # Only run on main branch push (e.g. after pull request merge).
+        if: github.event_name == 'push'
+        run: |
+          cd ${{ github.workspace }}
           git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
           git config --global user.email "username@users.noreply.github.com"
           git add .
