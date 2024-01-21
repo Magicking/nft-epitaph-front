@@ -11,7 +11,7 @@ jobs:
     env: 
       CI_COMMIT_MESSAGE: Continuous Integration Build Artifacts
       CI_COMMIT_AUTHOR: Continuous Integration
-      working-directory: "standalone"
+      working-directory: "${{ github.workspace }}/standalone"
       HOME: ${{ github.workspace }}
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
@@ -44,7 +44,7 @@ jobs:
           mv build /tmp
           cd ${{ github.workspace }}
           rm -rf * .svelte-kit
-          git checkout -f build
+          git checkout -f -B build
           cp -av /tmp/build/* .
           git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
           git config --global user.email "username@users.noreply.github.com"
