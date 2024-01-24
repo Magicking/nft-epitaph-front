@@ -6,9 +6,6 @@ on:
       RPC_URL:
         required: true
   schedule:
-    secrets:
-      RPC_URL:
-        required: true
    - cron: '* * * * *'
   
 jobs:
