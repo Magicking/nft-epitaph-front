@@ -1,7 +1,7 @@
 .DS_Store
 node_modules
-/build
-/.svelte-kit
+build
+.svelte-kit
 /package
 .env
 .env.*
@@ -13,3 +13,4 @@ vite.config.ts.timestamp-*
 static/public/json/*.json
 cache
 out
+.npm

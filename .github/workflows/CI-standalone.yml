@@ -7,6 +7,8 @@ on:
 
 jobs:
   front-tests:
+    env: 
+      working-directory: "standalone"
     runs-on: ubuntu-latest
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
@@ -20,10 +22,13 @@ jobs:
         with:
           node-version: "21.2.0"
           cache: "npm"
-          cache-dependency-path: package-lock.json
-      - name: Install deps
+          cache-dependency-path: ${{ env.working-directory }}/package-lock.json
+      - name: Install deps.
+        working-directory: ${{ env.working-directory }}
         run: npm install
-      - name: Linting tests
+      - name: Linting test
+        working-directory: ${{ env.working-directory }}
         run: npm run lint
-      - name: Linting tests
+      - name: Build test
+        working-directory: ${{ env.working-directory }}
         run: npm run build
