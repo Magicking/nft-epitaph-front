@@ -9,27 +9,26 @@ on:
 # - cron: '* * * * *'
 #
 jobs:
-    DownloadCollection:
-      name: Build
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout repository
-          uses: actions/checkout@v4
-          with:
-            submodules: recursive
+  download-collection:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
-        - name: Install Foundry
-          uses: onbjerg/foundry-toolchain@v1
+      - name: Install Foundry
+        uses: onbjerg/foundry-toolchain@v1
 
-        - name: Run downloader Solidity script
-          env:
-            RPC_URL: ${{ secrets.RPC_URL }}
-          run: forge script json --rpc-url "$RPC_URL"
+      - name: Run downloader Solidity script
+        env:
+          RPC_URL: ${{ secrets.RPC_URL }}
+        run: forge script json --rpc-url "$RPC_URL"
 
-        - uses: actions/upload-artifact@v4
-          with:
-            name: collections
-            path: static/public/json/*.json
-            retention-days: 7
-            compression-level: 0
-            if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        with:
+          name: collections
+          path: static/public/json/*.json
+          retention-days: 7
+          compression-level: 0
+          if-no-files-found: error
