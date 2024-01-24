@@ -1,5 +1,9 @@
 version: '3'
 services:
-  rgefront:
+  imgrefresh:
     build: .
-    restart: always
+    restart: unless-stopped
+    volumes:
+      - ./static/public/json:/app/static/public/json
+    environment:
+      - RPC_URL=${RPC_URL}

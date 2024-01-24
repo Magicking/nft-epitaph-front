@@ -10,3 +10,4 @@ build
 .output
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+static

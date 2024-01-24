@@ -14,3 +14,5 @@ static/public/json/*.json
 cache
 out
 .npm
+out
+cache
