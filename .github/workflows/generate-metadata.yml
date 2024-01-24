@@ -1,4 +1,4 @@
-name: Run Download collection script
+name: DownloadCollection
 
 on:
   workflow_dispatch:
