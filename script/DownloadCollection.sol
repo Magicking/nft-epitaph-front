@@ -33,7 +33,8 @@ contract BaseCollection is Script {
 
     function run() virtual public {
 		uint256 supply = IReaperGambitEpitaph(rge).totalSupply();
-		string memory output = vm.serializeUint("", "totalSupply", supply);
+		vm.serializeUint("", "totalSupply", supply);
+		string memory output = vm.serializeUint("", "blockNumber", block.number);
 
         // Write JSON configuration file
 		vm.writeJson(output, "static/public/json/collection.json");
