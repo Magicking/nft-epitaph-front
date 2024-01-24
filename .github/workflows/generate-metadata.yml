@@ -5,9 +5,12 @@ on:
     secrets:
       RPC_URL:
         required: true
-#schedule:
-# - cron: '* * * * *'
-#
+  schedule:
+    secrets:
+      RPC_URL:
+        required: true
+   - cron: '* * * * *'
+  
 jobs:
   download-collection:
     runs-on: ubuntu-latest
