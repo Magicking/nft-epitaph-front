@@ -1,4 +1,4 @@
-import { derived } from 'svelte/store';
+import { writable } from 'svelte/store';
 import { ethers } from 'ethers';
 import { provider, signer, signerAddress, contracts } from 'svelte-ethers-store';
 function atob(input) {
@@ -32,28 +32,46 @@ function b64DecodeUnicode(str) {
     }).join(''));
 }
 
-export const GraveyardStore1 = derived([provider, signerAddress, contracts], ([$provider, $signerAddress, $contracts], set) => {
-	if (!$provider || !$contracts.rge || !$signerAddress) return set({});
+export const GraveyardStore1 = writable({});
+export const TotalSupply = writable(0);
 
-	provider.subscribe(async (provider) => {
-		if (!provider) return;
-
-		provider.on('block', async (_block) => {
-			if ($contracts.rge) {
-                let ret = [];
-                const totalSupply = await $contracts.rge.totalSupply();
-                console.log("totalSupply", totalSupply-1);
-                // Fetch last 5 tokenURI
-                const min = totalSupply-6 < 0 ? 0 : totalSupply-6;
-                const max = totalSupply;
-                for (let i = min; i < max; i++) {
-                    const tokenURI = await $contracts.rge.tokenURI(i);
-                    const stripb64h = tokenURI.replace(/^data:\w+\/\w+;base64,/, '');
-                    const jobject = JSON.parse(b64DecodeUnicode(stripb64h));
-                    ret[i] = jobject;
-                }
-				set(ret);
+function loadNFT(id) {
+	return new Promise(async (resolve, reject) => {
+		try {
+			const response = await fetch(`/public/json/rge-${id}.json`);
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
 			}
-		});
+			const data = await response.json();
+			data['id'] = id;
+			console.log(data);
+			resolve(data);
+		} catch (error) {
+			reject(error);
+		}
 	});
-});
+}
+
+export async function LoadGraveyardStore() {
+	try {
+        const response = await fetch('/public/json/collection.json');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+		console.log(data);
+		TotalSupply.set(data['totalSupply']);
+		console.log(TotalSupply);
+		for (let i = 0; i < data['totalSupply']; i++) {
+			const nft = await loadNFT(i);
+			GraveyardStore1.update((store) => {
+				store[i] = nft;
+				return store;
+			}
+			);
+		}
+		console.log(GraveyardStore1);
+    } catch (error) {
+        console.error('Error loading the JSON data: ', error);
+    }
+}

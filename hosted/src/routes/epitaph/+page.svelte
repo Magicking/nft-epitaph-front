@@ -6,7 +6,7 @@
   import { rgbToHex, getRgbString } from "$lib/utils/useColorCode.js";
   evm.attachContract("rge", rgeConf["address"], rgeAbi["abi"]);
 
-  import { GraveyardStore1 } from "$lib/stores/graveyard.js";
+  import { GraveyardStore1, LoadGraveyardStore } from "$lib/stores/graveyard.js";
   import { onMount } from "svelte";
   import Loading from "$lib/components/shared/Loading.svelte";
 
@@ -21,12 +21,10 @@
   let isLoading = true;
 
   onMount(async () => {
-    // Check if the contract is available and if the data is loaded
-    if ($contracts.rge && $GraveyardStore1.length > 0) {
-      isLoading = false;
-	  console.log($GraveyardStore1[getIndex()]);
-    }
+	await LoadGraveyardStore();
+    isLoading = false;
   });
+  $: GraveyardStore1;
 </script>
 
 <div>

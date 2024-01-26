@@ -11,7 +11,7 @@ jobs:
     env: 
       CI_COMMIT_MESSAGE: Continuous Integration Build Artifacts
       CI_COMMIT_AUTHOR: Continuous Integration
-      working-directory: "${{ github.workspace }}/standalone"
+      working-directory: "${{ github.workspace }}/hosted"
       HOME: ${{ github.workspace }}
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
