@@ -5,8 +5,8 @@ on:
     secrets:
       RPC_URL:
         required: true
-  schedule:
-   - cron: '* * * * *'
+  #schedule:
+  # - cron: '* * * * *'
   
 jobs:
   download-collection:
