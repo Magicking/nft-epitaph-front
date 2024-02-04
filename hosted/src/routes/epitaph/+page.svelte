@@ -30,7 +30,7 @@
 <div>
   {#if isLoading}
     <Loading />
-  {:else if $contracts.rge}
+  {:else}
     <div class="text-white p-10">
       <h2>
         Epitaph {getIndex()}ª
@@ -98,11 +98,6 @@
       alt="NFT {getIndex()}"
       src={$GraveyardStore1[getIndex()].image}
     />
-  {:else}
-    <p class="text-white text-center">
-      Unable to load data. Please check the contract status or network
-      connection.
-    </p>
   {/if}
 </div>
 
