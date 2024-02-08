@@ -21,10 +21,7 @@
   let isLoading = true;
 
   onMount(async () => {
-	console.log("LOADING ASSET");
 	await LoadGraveyardStore();
-	console.log("LOADED");
-	console.log($GraveyardStore1);
     isLoading = false;
   });
   $: GraveyardStore1;
