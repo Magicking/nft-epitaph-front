@@ -44,7 +44,6 @@ function loadNFT(id) {
 			}
 			const data = await response.json();
 			data['id'] = id;
-			console.log(data);
 			resolve(data);
 		} catch (error) {
 			reject(error);
@@ -59,9 +58,7 @@ export async function LoadGraveyardStore() {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-		console.log(data);
 		TotalSupply.set(data['totalSupply']);
-		console.log(TotalSupply);
 		for (let i = 0; i < data['totalSupply']; i++) {
 			const nft = await loadNFT(i);
 			GraveyardStore1.update((store) => {
@@ -70,7 +67,6 @@ export async function LoadGraveyardStore() {
 			}
 			);
 		}
-		console.log(GraveyardStore1);
     } catch (error) {
         console.error('Error loading the JSON data: ', error);
     }
