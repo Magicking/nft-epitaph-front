@@ -15,7 +15,7 @@
 <div>
   {#if $connected}
     {#if $chainId !== 1}
-      TODO: Warning not on Ethereum Mainnet
+      PLEASE CONNECT TO ETHEREUM MAINNET
     {:else}
     <Mint/>
     {/if}

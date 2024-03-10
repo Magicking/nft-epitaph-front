@@ -21,13 +21,5 @@
 </svelte:head>
 
 <div>
-  {#if $connected}
-    {#if $chainId !== 1}
-      TODO: Warning not on Ethereum Mainnet
-    {:else}
-      <Graveyard />
-    {/if}
-  {:else}
-    <Hero />
-  {/if}
+  <Graveyard />
 </div>

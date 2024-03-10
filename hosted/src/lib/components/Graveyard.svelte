@@ -1,7 +1,6 @@
 <script>
   import { onMount } from "svelte";
   import { range } from "$lib/range.js";
-  import { defaultEvmStores as evm, contracts } from "svelte-ethers-store";
 
   import { GraveyardStore1, LoadGraveyardStore, TotalSupply } from "$lib/stores/graveyard.js";
   onMount(async () => {
