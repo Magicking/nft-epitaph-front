@@ -19,14 +19,14 @@
   const maxY = 24;
   export let nymMode = false;
 
-  let priceText = "0.0 ETH";
+  let priceText = "0 Szabo";
   let destination = "";
-  let coupon = "";
   let fUpdatePrice;
 
   let w;
   $: t = $translation;
   $: lang = $locale;
+  $: balance = $signer.getBalance()
 
   let showTooltip = false;
 
@@ -56,39 +56,16 @@
   }
 
   let rgb = getRandomColor();
-  function validate(e) {
-    console.log("TODO CHECK destination is a valid address");
-  }
-  function validateCoupon(e) {
-    const couponText = document.getElementById("coupon");
-    if (coupon == "") {
-      couponText.classList.remove("border-green-500");
-      couponText.classList.remove("border-red-500");
-    }
-    fUpdatePrice(rgb);
-  }
 
   onMount(async () => {
     destination = "0x89261878977b5a01c4fd78fc11566abe31bbc14e"; // RG DAO
 	try {
      $signer.getAddress().then((address) => {
-	  // Fetch coupon at /{address}.json
-	  fetch("/public//" + address.toLowerCase() + ".json").then((response) => {
-	    if (response.status == 404) {
-	      // No coupon found
-	      return;
-	    }
-	    return response.json();
-	  }).then((data) => {
-	 	// Set coupon input to fetched coupon
-		data = data == null ? "" : data;
-	    document.getElementById("coupon").value = data;
-		coupon = data;
-		validateCoupon(null);
-	})
+		destination = address;
+		fUpdatePrice(rgb);
 	});
 	} catch (error) {
-	  validateCoupon(null);
+	  fUpdatePrice(rgb);
 	}
     const canvas = document.getElementById("canvas");
     const saveBtn = document.getElementById("saveBtn");
@@ -100,33 +77,31 @@
     let isEraserActive = false;
     let colorPrice = 0;
     fUpdatePrice = (rgb) => {
-      if (!nymMode) {
-        $contracts.rge.callStatic["calcPrice(uint256,bytes)"](
-          (rgb.r << 16) + (rgb.g << 8) + rgb.b,
-          coupon == "" ? [] : coupon
-        )
-          .then((priceWei) => {
-            colorPrice = priceWei;
-            saveBtn.disabled = false;
-            priceText =
-              "Code " +
-              rgbToHex(rgb.r, rgb.g, rgb.b) +
-              " Price " + ethers.utils.formatEther(priceWei).substring(0, 6) + " ETH";
-            updateCanvasColors();
-          })
-          .catch((error) => {
-            saveBtn.disabled = true;
-            priceText =
-              "Code " +
-              rgbToHex(rgb.r, rgb.g, rgb.b) +
-              " already used or invalid coupon";
-            console.error("An error occurred when calling calcPrice:", error);
-          });
-      } else {
-        saveBtn.disabled = false;
-        priceText =
-          "Code " + rgbToHex(rgb.r, rgb.g, rgb.b);
-      }
+      $contracts.rge.callStatic["calcPrice(uint256,bytes)"](
+        (rgb.r << 16) + (rgb.g << 8) + rgb.b, []
+      )
+        .then((priceWei) => {
+          colorPrice = priceWei;
+          saveBtn.disabled = false;
+          let pricesz = ethers.utils.formatUnits(priceWei, "szabo");
+	  	// if price has . split and assign otherwise let it
+	  	if (pricesz.includes(".")) {
+	  	  pricesz = pricesz.split(".")[0];
+	  	}
+          priceText =
+            "Code " +
+            rgbToHex(rgb.r, rgb.g, rgb.b) +
+            " Price " + pricesz + " Szabo (ETH)";
+          updateCanvasColors();
+        })
+        .catch((error) => {
+          saveBtn.disabled = true;
+          priceText =
+            "Code " +
+            rgbToHex(rgb.r, rgb.g, rgb.b) +
+            " already used";
+          console.error("An error occurred when calling calcPrice:", error);
+        });
       updateCanvasColors();
     };
     eraseBtn.addEventListener("click", () => {
@@ -228,28 +203,16 @@
           g.toString(16).padStart(2, "0") +
           b.toString(16).padStart(2, "0");
         console.log([sig, rgb256, destination]);
-        // call the smart contract with 0.1 ETH
+        // call the smart contract with ETH
         //console.log($contracts.rge);
-        if (nymMode) {
-          const payload = {
-            message: String(JSON.stringify([sig, rgb256, destination])),
-            mimeType: String("text/plain"),
-          };
-          const recipient = rgeConf["nymservice"];
-            window.nym.client.send({ payload, recipient }).then((e) => {
-              console.log("Message sent using Nym: ", e);
-              goto("/");
-            });
-        } else {
-          await $contracts.rge[
-            "mintEpitaphOf(uint256[12],uint256,address,bytes)"
-          ](sig, rgb256, destination, coupon == "" ? [] : coupon, {
-            value: colorPrice,
-          }).then((e) => {
-            console.log("Message sent using Provider: ", e);
-            goto("/");
-          })
-        }
+        await $contracts.rge[
+          "mintEpitaphOf(uint256[12],uint256,address,bytes)"
+        ](sig, rgb256, destination, "0x01", {
+          value: colorPrice,
+        }).then((e) => {
+          console.log("Message sent using Provider: ", e);
+          goto("/");
+        })
       } catch (error) {
         console.error("An error occurred when calling mintEpitaph:", error);
       }
@@ -315,15 +278,12 @@
       <!-- svelte-ignore a11y-mouse-events-have-key-events -->
       <div class="flex flex-col items-stretch md:items-center relative p-6">
         <!-- svelte-ignore a11y-click-events-have-key-events -->
-        <div
-          on:mouseover={() => (showTooltip = true)}
-          on:mouseleave={() => (showTooltip = false)}
-        >
+        <div>
           <label
             for="address"
             class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
           >
-            ReapersGambit account:
+            In memory of (Ethereum address):
           </label>
           <input
             type="text"
@@ -334,17 +294,6 @@
             required
           />
         </div>
-
-        {#if showTooltip}
-          <span
-            class="tool-tip absolute z-10 w-auto text-white bg-black rounded-md shadow-lg -translate-x-1/2 left-1/2"
-          >
-            {t("Mint.Tooltip")}
-            <svg class="tooltip-svg" viewBox="0 0 20 10">
-              <path d="M0,0 L10,10 L20,0 Z"></path>
-            </svg>
-          </span>
-        {/if}
       </div>
     </div>
 
@@ -384,23 +333,6 @@
     <div class="p-10 bg-black bottom-bar">
       <br />
       <div class="flex justify-between flex-col md:flex-row gap-y-6 md:gap-y-0">
-        <div>
-        {#if !nymMode}
-          <label
-            for="coupon"
-            class="block w-56 mb-2 text-sm font-medium text-gray-100 dark:text-white"
-            >Coupon</label
-          >
-          <input
-            type="text"
-            bind:value={coupon}
-            on:input={(e) => validateCoupon(e)}
-            id="coupon"
-            class="bg-gray-50 w-1/6 border text-gray-100 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="0xDE2..."
-          />
-        {/if}
-      </div>
         <div>
           <div class="text-white">
             <button
