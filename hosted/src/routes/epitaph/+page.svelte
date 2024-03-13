@@ -82,13 +82,13 @@
             .Month}-{$GraveyardStore1[getIndex()].attributes[7].Year}
         </p>
         <div class="flex items-center">
-          <p>Status:</p>
+          <p>Type:&nbsp;</p>
           <button
             class={$GraveyardStore1[getIndex()].attributes[4].tag
               ? "dangerText"
               : "okayText"}
           >
-            {$GraveyardStore1[getIndex()].attributes[4].tag ? "Dead" : "Alive"}
+            {$GraveyardStore1[getIndex()].attributes[4].tag ? "Tag" : "Memory"}
           </button>
         </div>
       </div>
